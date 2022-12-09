@@ -19,7 +19,7 @@ public class ProxyController {
     @Autowired
     ProxyService service;
     
-    @RequestMapping("/**")
+    @RequestMapping("/govregistry/**")
     public ResponseEntity<String> sendRequestToSPM(@RequestBody(required = false) String body,
                                                    HttpMethod method, HttpServletRequest request, HttpServletResponse response)
             throws URISyntaxException {

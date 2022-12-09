@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,8 +24,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import it.govhub.govregistry.api.entity.UserEntity;
+import it.govhub.govregistry.api.services.SecurityService;
+
 @Service
 public class ProxyService {
+	
+    @Value("${govshell.auth.header}")
+    private String headerAuthentication;
 	
     String domain = "localhost";
     Integer port = 10001;
@@ -57,6 +64,17 @@ public class ProxyService {
 
         headers.set("TRACE", traceId);
         headers.remove(HttpHeaders.ACCEPT_ENCODING);
+        
+        // Aggiungo header di autenticazione 
+        UserEntity principal = SecurityService.getPrincipal();
+        headers.set(this.headerAuthentication, principal.getPrincipal());
+        
+        // Aggiungo header X-Forwarded-For per notificare all'endpoint la presenza del proxy.
+
+        headers.set("X-Forwarded-For", request.getRemoteAddr());
+        
+        // Questo fa modificare la generazione dei link hateoas, che tengono in considerazione il proxy
+        headers.set("X-Forwarded-Host",  request.getLocalAddr()+":"+request.getLocalPort());
 
 
         HttpEntity<String> httpEntity = new HttpEntity<>(body, headers);
