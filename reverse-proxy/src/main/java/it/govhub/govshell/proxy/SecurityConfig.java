@@ -14,15 +14,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.govhub.govregistry.api.config.AccessDeniedHandlerImpl;
-import it.govhub.govregistry.api.config.SecurityConstants;
+import it.govhub.govregistry.api.security.AccessDeniedHandlerImpl;
 import it.govhub.govregistry.api.security.GovhubUserDetailService;
 import it.govhub.govregistry.api.security.ProblemHttp403ForbiddenEntryPoint;
 
@@ -36,6 +32,9 @@ import it.govhub.govregistry.api.security.ProblemHttp403ForbiddenEntryPoint;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
+	
+	@Value("${server.servlet.session.cookie.name}")
+	private String sessionCookieName;
 	
 	@Autowired
 	private ObjectMapper jsonMapper;
@@ -68,7 +67,7 @@ public class SecurityConfig{
 		.and()
 		.logout()
 			.logoutUrl("/logout")
-			.deleteCookies("JSESSIONID")
+			.deleteCookies(this.sessionCookieName)
 			.invalidateHttpSession(true)
 			.logoutSuccessHandler(new DefaultLogoutSuccessHandler())
 		.and()

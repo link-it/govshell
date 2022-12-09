@@ -18,9 +18,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.govhub.govregistry.api.config.AuthenticationProblem;
 import it.govhub.govregistry.api.exception.RestResponseEntityExceptionHandler;
 import it.govhub.govregistry.api.exception.UnreachableException;
+import it.govhub.govregistry.api.security.AuthenticationProblem;
 
 @Component
 public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler {
