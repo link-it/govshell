@@ -1,17 +1,6 @@
 # GovShell
 
 
-## Get
-
-```
-cd existing_repo
-git remote add origin https://gitlab.link.it/govhub/applications/govshell.git
-git branch -M main
-git push -uf origin main
-```
-
-***
-
 ## Descrizione
 
 Autenticazione e Proxy per l'ecosistema GovHub.
@@ -30,18 +19,30 @@ curl -v --cookie "GOVHUB-JSESSIONID=0A8581FBDA2754C5DB3ADFB2E2018D29" -X GET 'ht
 
 ***
 
+## Get
+
+```
+cd existing_repo
+git remote add origin https://gitlab.link.it/govhub/applications/govshell.git
+git branch -M main
+git push -uf origin main
+```
+
+***
+
 ## Installazione
 
 I comandi SQL assumono l'utilizzo di postgres.
 
 Creare l'utenza SQL:
 
-    Nome Utente: govhub
-    Password Utente: govhub
-
 ```bash
 createuser --interactive
 ```
+
+- Nome Utente: govhub
+- Password Utente: govhub
+
 
 Creare il database `govhub`
 
@@ -70,3 +71,17 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dspring-boot.run.arguments=-
 ```
 
 L'applicazione verrà deployata di default sulla porta 11001. Il database delle utenze viene popolato deployando govregistry.
+
+***
+## WAR
+
+Per ottenere un war deployabile su application server:
+
+
+```bash
+mvn package -P war -DskipTests
+```
+
+L'artefatto verrà prodotto sotto
+
+    target/govshell.war
