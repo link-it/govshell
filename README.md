@@ -85,3 +85,12 @@ mvn package -P war -DskipTests
 L'artefatto verrà prodotto sotto
 
     target/govshell.war
+
+
+***
+## Configurazione
+
+Le applicazioni vengono cachate in modo da velocizzare il processo routing. Per modificare l'intervallo di pulizia della cache dell'anagrafica appilcazioni:
+
+    caching.govhub.applications.TTL = 300000
+
