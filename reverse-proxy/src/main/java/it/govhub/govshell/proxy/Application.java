@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 
 import it.govhub.govregistry.api.config.SharedConfiguration;
@@ -15,12 +16,13 @@ import it.govhub.govregistry.api.exception.RequestRejectedExceptionHandler;
 /**
  * Applicazione Spring di GovShell.
  * 
- * Le entità e i repository vanno importati a mano per via della Import,
+ * Le entità e i repository vanno scansionati a mano per via della Import,
  * dove vengono specificati a loro volta i packages dei repository e delle entità.
  *
  */
 
 @SpringBootApplication
+@EnableScheduling
 @Import(SharedConfiguration.class)
 @EnableJpaRepositories("it.govhub.govshell.proxy")
 @EntityScan("it.govhub.govshell.proxy")
