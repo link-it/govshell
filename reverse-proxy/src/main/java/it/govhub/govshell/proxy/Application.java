@@ -4,10 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.web.firewall.RequestRejectedHandler;
 
 import it.govhub.govregistry.api.config.SharedConfiguration;
+import it.govhub.govregistry.api.exception.RequestRejectedExceptionHandler;
 
 /**
  * Applicazione Spring di GovShell.
@@ -26,6 +29,16 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    
+	/**
+	 * Questo Bean Restituisce un Problem quando spring-security rifiuta una
+	 * richiesta perchè ritenuta ad esempio non sicura.
+	 */
+	@Bean
+	public RequestRejectedHandler requestRejectedHandler() {
+	   return new RequestRejectedExceptionHandler();
+	}
+	
     
     
 }
