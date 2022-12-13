@@ -15,12 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import it.govhub.govregistry.api.entity.UserEntity;
 import it.govhub.govregistry.api.exception.ResourceNotFoundException;
+import it.govhub.govregistry.api.messages.SystemMessages;
 import it.govhub.govregistry.api.services.SecurityService;
 
 @Service
@@ -107,9 +106,9 @@ public class ProxyService {
             logger.info(serverResponse.toString());
             return serverResponse;
 
-        } catch (HttpStatusCodeException e) {
+        } catch (Exception  e) {
             logger.error(e.getMessage());
-            throw new RuntimeException("Request can't be satisfied at the moment");
+            throw new RuntimeException(SystemMessages.REQUEST_CANT_BE_SATISFIED);
         }
     }
 

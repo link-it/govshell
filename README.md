@@ -64,6 +64,7 @@ Creare la cartella di log:
 mkdir /var/log/govshell
 ```
 
+
 Eseguire l'applicazione:
 
 ```bash
