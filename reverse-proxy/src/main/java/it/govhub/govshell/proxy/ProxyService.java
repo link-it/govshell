@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -108,18 +109,8 @@ public class ProxyService {
 
         } catch (HttpStatusCodeException e) {
             logger.error(e.getMessage());
-            return ResponseEntity.status(e.getRawStatusCode())
-                    .headers(e.getResponseHeaders())
-                    .body(e.getResponseBodyAsString());
+            throw new RuntimeException("Request can't be satisfied at the moment");
         }
     }
 
-
-    @Recover
-    public ResponseEntity<String> recoverFromRestClientErrors(Exception e, String body,
-                                                              HttpMethod method, HttpServletRequest request, HttpServletResponse response, String traceId) {
-        logger.error("retry method for the following url " + request.getRequestURI() + " has failed" + e.getMessage());
-        logger.error(e.getStackTrace().toString());
-        throw new RuntimeException("There was an error trying to process you request. Please try again later");
-    }
 }
