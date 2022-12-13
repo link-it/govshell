@@ -106,8 +106,19 @@ public class ProxyService {
             logger.info(serverResponse.toString());
             return serverResponse;
 
-        } catch (Exception  e) {
+        } catch (HttpStatusCodeException  e) {
             logger.error(e.getMessage());
+            if (e.getRawStatusCode() == 500) {
+            	// Non so perchè ma il caso 500 va gestito sollevando un eccezione e passando il controllo al RestResponseEntityExceptionHandler,
+            	// se costruiamo la entity a mano come negli altri casi, la risposta non viene inviata.
+            	throw new RuntimeException(SystemMessages.REQUEST_CANT_BE_SATISFIED);
+            } else {
+	            return ResponseEntity.status(e.getRawStatusCode())
+	                    .headers(e.getResponseHeaders())
+	                    .body(e.getResponseBodyAsString());
+            }
+        } catch (Exception e) {
+        	logger.error(e.getMessage());
             throw new RuntimeException(SystemMessages.REQUEST_CANT_BE_SATISFIED);
         }
     }
