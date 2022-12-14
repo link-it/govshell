@@ -26,10 +26,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.ResourceNotFoundException;
-import it.govhub.govregistry.commons.services.SecurityService;
 import it.govhub.govshell.proxy.entities.ApplicationEntity;
 import it.govhub.govshell.proxy.messages.SystemMessages;
 import it.govhub.govshell.proxy.repository.ApplicationRepository;
+import it.govhub.security.services.SecurityService;
 
 @Service
 public class ProxyService {

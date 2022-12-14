@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.UnreachableException;
-import it.govhub.govregistry.commons.services.SecurityService;
+import it.govhub.security.services.SecurityService;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {

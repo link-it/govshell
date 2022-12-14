@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 
 import it.govhub.govregistry.commons.config.SharedConfiguration;
-import it.govhub.govregistry.commons.exception.RequestRejectedExceptionHandler;
+import it.govhub.govregistry.commons.exception.handlers.RequestRejectedExceptionHandler;
 
 
 
