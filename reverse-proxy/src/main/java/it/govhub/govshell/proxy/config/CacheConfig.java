@@ -1,4 +1,4 @@
-package it.govhub.govshell.proxy;
+package it.govhub.govshell.proxy.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

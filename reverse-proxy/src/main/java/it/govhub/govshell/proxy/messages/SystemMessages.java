@@ -1,4 +1,4 @@
-package it.govhub.govshell.proxy;
+package it.govhub.govshell.proxy.messages;
 
 public class SystemMessages {
 	

@@ -1,4 +1,4 @@
-package it.govhub.govshell.proxy;
+package it.govhub.govshell.proxy.web;
 
 import java.net.URISyntaxException;
 import java.util.UUID;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import it.govhub.govshell.proxy.services.ProxyService;
 
 
 @RestController

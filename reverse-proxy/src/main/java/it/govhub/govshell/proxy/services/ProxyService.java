@@ -1,4 +1,4 @@
-package it.govhub.govshell.proxy;
+package it.govhub.govshell.proxy.services;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,6 +27,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.ResourceNotFoundException;
 import it.govhub.govregistry.commons.services.SecurityService;
+import it.govhub.govshell.proxy.entities.ApplicationEntity;
+import it.govhub.govshell.proxy.messages.SystemMessages;
+import it.govhub.govshell.proxy.repository.ApplicationRepository;
 
 @Service
 public class ProxyService {

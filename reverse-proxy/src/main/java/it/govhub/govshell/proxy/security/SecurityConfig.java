@@ -1,4 +1,4 @@
-package it.govhub.govshell.proxy;
+package it.govhub.govshell.proxy.security;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +37,9 @@ public class SecurityConfig{
 	@Value("${server.servlet.session.cookie.name}")
 	private String sessionCookieName;
 	
+	@Value("${govshell.auth.max-sessions}")
+	private Integer maxSessions;
+	
 	@Autowired
 	private ObjectMapper jsonMapper;
 
@@ -47,6 +51,9 @@ public class SecurityConfig{
 	
 	@Autowired
 	private  LoginFailureHandler loginFailureHandler;
+	
+	@Autowired
+	private ExpiredSessionHandler expiredSessionHandler;
 	
 	@Autowired
 	protected GovhubUserDetailService userDetailService;
@@ -75,10 +82,26 @@ public class SecurityConfig{
 			.xssProtection()
             .and()
             .contentSecurityPolicy("default-src 'self'");																				// Politica di CSP più restrittiva. Il browser carica solo risorse dalla stessa origine. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-		; 
+		;
+		
+	    http.sessionManagement()
+	    	.maximumSessions(maxSessions)
+	    	.expiredSessionStrategy(this.expiredSessionHandler);
 	
 		return http.build();
 	}
+	
+
+	/**
+	 * Pubblica gli eventi di sessione sul WebApplicationContext radice.
+	 * Consente nel nostro caso di contare il numero di sessioni attive per utente e limitarlo di conseguenza.
+	 * 
+	 */
+	@Bean
+	public HttpSessionEventPublisher httpSessionEventPublisher() {
+	    return new HttpSessionEventPublisher();
+	}
+	
 	
 	public class DefaultLogoutSuccessHandler implements LogoutSuccessHandler {
 	    @Override
