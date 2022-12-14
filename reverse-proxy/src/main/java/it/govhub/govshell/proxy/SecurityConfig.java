@@ -71,7 +71,10 @@ public class SecurityConfig{
 			.invalidateHttpSession(true)
 			.logoutSuccessHandler(new DefaultLogoutSuccessHandler())
 		.and()
-		.sessionManagement()
+		.headers()
+			.xssProtection()
+            .and()
+            .contentSecurityPolicy("default-src 'self'");																				// Politica di CSP più restrittiva. Il browser carica solo risorse dalla stessa origine. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
 		; 
 	
 		return http.build();
