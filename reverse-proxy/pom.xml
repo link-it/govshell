@@ -19,7 +19,7 @@
 	
 		<dependency>
 			<groupId>it.govhub.govregistry</groupId>
-			<artifactId>api</artifactId>
+			<artifactId>commons</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 	

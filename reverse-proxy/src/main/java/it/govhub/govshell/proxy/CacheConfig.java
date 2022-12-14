@@ -7,7 +7,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import it.govhub.govregistry.api.config.Caches;
 
 @Configuration
 @EnableCaching
@@ -15,7 +14,7 @@ public class CacheConfig {
 	
 	public static final String APPLICATIONS = "applications";
 	
-	private Logger logger = LoggerFactory.getLogger(Caches.class);
+	private Logger logger = LoggerFactory.getLogger(CacheConfig.class);
 	
 	@CacheEvict(value = APPLICATIONS, allEntries = true)
 	@Scheduled(fixedRateString = "${caching.govhub.applications.TTL}")

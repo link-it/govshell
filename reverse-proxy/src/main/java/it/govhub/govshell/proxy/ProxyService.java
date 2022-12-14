@@ -24,10 +24,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import it.govhub.govregistry.api.entity.UserEntity;
-import it.govhub.govregistry.api.exception.ResourceNotFoundException;
-import it.govhub.govregistry.api.messages.SystemMessages;
-import it.govhub.govregistry.api.services.SecurityService;
+import it.govhub.govregistry.commons.entity.UserEntity;
+import it.govhub.govregistry.commons.exception.ResourceNotFoundException;
+import it.govhub.govregistry.commons.services.SecurityService;
 
 @Service
 public class ProxyService {

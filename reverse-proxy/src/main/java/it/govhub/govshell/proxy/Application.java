@@ -10,8 +10,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 
-import it.govhub.govregistry.api.config.SharedConfiguration;
-import it.govhub.govregistry.api.exception.RequestRejectedExceptionHandler;
+import it.govhub.govregistry.commons.config.SharedConfiguration;
+import it.govhub.govregistry.commons.exception.RequestRejectedExceptionHandler;
+
+
 
 /**
  * Applicazione Spring di GovShell.

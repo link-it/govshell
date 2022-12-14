@@ -9,23 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.govhub.govregistry.api.assemblers.UserAssembler;
-import it.govhub.govregistry.api.beans.Problem;
-import it.govhub.govregistry.api.beans.Profile;
-import it.govhub.govregistry.api.security.GovhubPrincipal;
+
 
 @RestController
 public class ProxyController {
@@ -33,8 +23,8 @@ public class ProxyController {
     @Autowired
     ProxyService service;
     
-    @Autowired
-    UserAssembler userAssembler;
+    /*@Autowired
+    UserAssembler userAssembler;*/
     
     @RequestMapping("/{application_id}/**")
     public ResponseEntity<String> sendRequestToSPM(
@@ -61,7 +51,7 @@ public class ProxyController {
      *         or Service Unavailable. (status code 503)
      *         or Unexpected error. (status code 200)
      */
-    @Operation(
+    /*@Operation(
         operationId = "profile",
         summary = "Get the detail of the authenticated user.",
         tags = { "system" },
@@ -108,5 +98,5 @@ public class ProxyController {
     		Profile ret = this.userAssembler.toProfileModel(principal.getUser());
     		
     		return ResponseEntity.ok(ret);
-    }
+    }*/
 }

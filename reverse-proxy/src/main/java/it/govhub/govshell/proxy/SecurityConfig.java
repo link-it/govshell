@@ -18,9 +18,9 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import it.govhub.govregistry.api.security.AccessDeniedHandlerImpl;
-import it.govhub.govregistry.api.security.GovhubUserDetailService;
-import it.govhub.govregistry.api.security.ProblemHttp403ForbiddenEntryPoint;
+import it.govhub.govregistry.commons.security.AccessDeniedHandlerImpl;
+import it.govhub.govregistry.commons.security.GovhubUserDetailService;
+import it.govhub.govregistry.commons.security.ProblemHttp403ForbiddenEntryPoint;
 
 
 
