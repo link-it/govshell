@@ -6,6 +6,7 @@
 	<version>1.0.0</version>
 	<groupId>it.govhub.govshell</groupId>
 	<artifactId>reverse-proxy</artifactId>
+	<packaging>${packaging.type}</packaging>	
 	<name>GovHub Reverse Proxy</name>
 	<description>Reverse Proxy per la connessione alle applicazioni di GovShell</description>
 
@@ -15,6 +16,31 @@
 		<version>2.7.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
+	<profiles>
+		<profile>
+			<id>jar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<packaging.type>jar</packaging.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>war</id>
+			<properties>
+				<packaging.type>war</packaging.type>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 
 	<dependencies>
 	
