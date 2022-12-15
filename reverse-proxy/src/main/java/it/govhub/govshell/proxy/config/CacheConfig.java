@@ -18,7 +18,7 @@ public class CacheConfig {
 	
 	@CacheEvict(value = APPLICATIONS, allEntries = true)
 	@Scheduled(fixedRateString = "${caching.govhub.applications.TTL}")
-	public void emptyPrincipalsCache() {
+	public void emptyApplicationsCache() {
 		logger.info("CLEARING " + APPLICATIONS + " CACHE.");
 	}
 	

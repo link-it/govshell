@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 
-import it.govhub.govregistry.commons.config.SharedConfiguration;
+import it.govhub.govregistry.commons.config.CommonsExportedBeans;
 import it.govhub.govregistry.commons.exception.handlers.RequestRejectedExceptionHandler;
 
 
@@ -25,7 +25,7 @@ import it.govhub.govregistry.commons.exception.handlers.RequestRejectedException
 
 @SpringBootApplication
 @EnableScheduling
-@Import(SharedConfiguration.class)
+@Import(CommonsExportedBeans.class)
 @EnableJpaRepositories("it.govhub.govshell.proxy")
 @EntityScan("it.govhub.govshell.proxy")
 public class Application extends SpringBootServletInitializer {
