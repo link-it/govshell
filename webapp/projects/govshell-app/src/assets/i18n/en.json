@@ -1,0 +1,203 @@
+{
+	"APP": {
+		"BUTTON": {
+			"AlertAction": "Close",
+			"Cancel": "Cancel",
+			"Clear": "Clear",
+			"Close": "Close",
+			"CloseSidebar": "Close sidebar",
+			"Collapse": "Collapse",
+			"CollapseSidebar": "Collapse sidebar",
+			"Confirm": "Confirm",
+			"Continue": "Continue",
+			"Download": "Download",
+			"Entra": "Enter",
+			"Expand": "Expand",
+			"Go": "Go",
+			"Login": "Login",
+			"MoreInfo": "More info",
+			"Report": "Report",
+			"Save": "Save",
+			"Search": "Search"
+		},
+		"ENUM": {
+			"COMPLETATO": "Completed",
+			"ELABORAZIONE": "Elaboration",
+			"NUOVO": "New",
+			"SCARTATO": "Discarded"
+		},
+		"FILTER": {
+			"All": "All",
+			"Closed": "Closed",
+			"Found": "Found",
+			"Open": "Open"
+		},
+		"HTTP": {
+			"CodeException": "Unpredictable problem. Please try again later",
+			"Default": "Service not available, please try again later.",
+			"ErrorMap": [
+				{
+					"Match": "string_to_match",
+					"Message": "[%1, %2, %3, %4] Error message"
+				}
+			],
+			"Status400": "Bad request.",
+			"Status401": "Access not authorized. Try to login again.",
+			"Status403": "Access forbidden.",
+			"Status404": "Service not found.",
+			"Status422": "Unable to complete the request.",
+			"Status500": "Internal server error.",
+			"Status504": "Gateway timeout."
+		},
+		"LABEL": {
+			"All": "All",
+			"Date": "Date",
+			"DateFrom": "Date From",
+			"DateTo": "Date To",
+			"Description": "Description",
+			"FileName": "Filename",
+			"Id": "ID",
+			"Index": "Index",
+			"Name": "Name",
+			"Password": "Password",
+			"Status": "Status",
+			"Type": "Type",
+			"UsernameEmail": "Username or email"
+		},
+		"LABEL_HELP": {
+			"All": ""
+		},
+		"MENU": {
+			"Configurations": "Configurations",
+			"Dashboard": "Dashboard",
+			"ExportCSV": "Export CSV",
+			"ExportPDF": "Export PDF",
+			"Home": "Home",
+			"Logout": "Logout"
+		},
+		"MESSAGE": {
+			"AreYouSure": "Are you sure you want to delete the selected item?",
+			"ERROR": {
+				"Default": "Sorry, unpredictable problem",
+				"DefaultHelp": "Please try again later",
+				"TimeoutError": "Timeout has occurred",
+				"Unauthorized": "Unauthorized",
+				"Unprocessable Entity": "Unprocessable Entity"
+			},
+			"EsportingFile": "Exporting File…",
+			"InsertNotice": "Enter the notice number and press the search button …",
+			"LOGIN": {
+				"PasswordRequired": "Password required",
+				"UsernameRequired": "Username required",
+				"login_400": "Username o password errati. Controlla la corretta scrittura dei dati.",
+				"login_401": "Username o password errati. Controlla la corretta scrittura dei dati.",
+				"login_403": "Username o password errati. Controlla la corretta scrittura dei dati.",
+				"login_422": "Username o password errati. Oppure non sei autorizzato ad accedere.",
+				"valid_email": "Insert valid email",
+				"wrong_username_password": "Username e/o Password errati."
+			},
+			"NoAnnouncement": "No announcement",
+			"NoBankAccount": "No bank account",
+			"NoCandidacies": "No candidacies",
+			"NoData": "Sorry, the requested information was not found",
+			"NoDataHelp": "Please check your connection and try again",
+			"NoNoticeResults": "No notice was found",
+			"NoNoticeResultsHelp": "Check the number entered or fill in the payment details manually",
+			"NoPaymentsResults": "There are no payments",
+			"NoPaymentsResultsHelp": "Add a new payment",
+			"NoResults": "Sorry, your filter produced no results",
+			"NoResultsHelp": "To widen your search, change or remove filters above",
+			"PageNumber": "Page {{page}} of {{total}}",
+			"Sign_in_message": "Sign in with your account",
+			"VALIDATION": {
+				"FieldRequired": "Field required",
+				"GreaterThanEqual": "The amount must have a greater or equal value than {{value}}",
+				"GreaterThanZero": "The amount must have a greater value than zero",
+				"LessThanEqual": "The amount must have a value less or equal to {{value}}",
+				"MaxAmount": "The amount can have a maximum value of {{value}}",
+				"MinAmount": "The amount must be a value greater than {{value}}",
+				"NoticeLenght": "The notice number must have {{value}} char",
+				"Number": "The value must be a number",
+				"OneOfLength": "The length must be one of the following values",
+				"OrganizationTaxCode": "The tax code must be numeric and 11 digits",
+				"Range": "The amount must have a value between {{min}} and {{max}}",
+				"Taxcode": "Wrong taxcode",
+				"TaxcodeVat": "Wrong taxcode or VAT number"
+			}
+		},
+		"PDF": {
+			"PAGE_NUMBER": "Page {{pageNumber}} of {{totalPages}}"
+		},
+		"PLACEHOLDER": {
+			"Search": "Search..."
+		},
+		"SEARCH": {
+			"ClearRecentSearches": "Clear recent searches",
+			"NoRecentSearches": "You don't have any recent searches",
+			"RecentSearches": "Recent searches",
+			"View": "View"
+		},
+		"SIDENAV": {
+			"Title": "Reconcilier"
+		},
+		"STATUS": {
+			"ACCETTATO": "Accepted",
+			"COMPLETATO": "Completed",
+			"ELABORATO": "Processed",
+			"ELABORAZIONE": "In processing",
+			"ERRORE": "Error",
+			"IN_ELABORAZIONE": "In processing",
+			"NUOVO": "New",
+			"SCARTATO": "Discarded"
+		},
+		"TAB": {
+			"Content": "Content",
+			"Details": "Details"
+		},
+		"TABLE": {
+			"Amount": "Amount",
+			"AvailabilityDate": "Availability date",
+			"CandidacieId": "Code",
+			"CandidateFullName": "Candidate",
+			"CandidateId": "Code",
+			"CandidateTaxCode": "Candidate TaxCode",
+			"Competition": "Competition",
+			"CreditorReferenceId": "IUV",
+			"Description": "Description",
+			"Organizer": "Organizer",
+			"PostingDate": "Posting Date",
+			"ReportingFlowId": "Flow Id",
+			"Status": "Status",
+			"Summary": "Summary",
+			"Total": "Total",
+			"TotalCandidacies": "Total candidacies",
+			"Totals": "Totals",
+			"TransactionReferenceNumber": "Reference"
+		},
+		"TITLE": {
+			"Applications": "Applications",
+			"Attention": "Attention",
+			"Configurations": "Configurations",
+			"Dashboard": "Dashboard",
+			"GeneralInformations": "General informations",
+			"Home": "Home",
+			"Login": "Login",
+			"New": "New",
+			"Reporting": "Reporting",
+			"Watermark": "Staging"
+		},
+		"TOOLTIP": {
+			"Add": "Add",
+			"CancelEdit": "Cancel edit",
+			"CancelNew": "Cancel add",
+			"Export": "Export",
+			"ExportCSV": "Export file CSV",
+			"ExportPDF": "Export file PDF",
+			"Preview": "Preview",
+			"Remove": "Remove"
+		},
+		"TYPE": {
+			"MANUALE": "Manual"
+		}
+	}
+}
