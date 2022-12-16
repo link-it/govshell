@@ -1,0 +1,6 @@
+<div id="route-section" class="">
+  <section class="application-container container-fluid px-0 py-0">
+    <iframe class="application-frame" [src]="_iframeUrl | safeUrl" (load)="onLoadIFrame($event)" *ngIf="_iframeUrl && !_iframeUrlError"></iframe>
+    <div *ngIf="_iframeUrlError">ERRORE</div>
+  </section>
+</div>

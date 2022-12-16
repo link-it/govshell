@@ -1,0 +1,203 @@
+{
+	"APP": {
+		"BUTTON": {
+			"AlertAction": "Chiudi",
+			"Cancel": "Annulla",
+			"Clear": "Pulisci",
+			"Close": "Chiudi",
+			"CloseSidebar": "Chiudi la barra laterale",
+			"Collapse": "Contrai",
+			"CollapseSidebar": "Comprimi la barra laterale",
+			"Confirm": "Conferma",
+			"Continue": "Continua",
+			"Download": "Scarica",
+			"Entra": "Entra",
+			"Expand": "Espandi",
+			"Go": "Vai",
+			"Login": "Accedi",
+			"MoreInfo": "Ulteriori informazioni",
+			"Report": "Resoconto",
+			"Save": "Salva",
+			"Search": "Cerca"
+		},
+		"ENUM": {
+			"COMPLETATO": "Completato",
+			"ELABORAZIONE": "Elaborazione",
+			"NUOVO": "Nuovo",
+			"SCARTATO": "Scartato"
+		},
+		"FILTER": {
+			"All": "Tutti",
+			"Closed": "Chiusi",
+			"Found": "Trovati",
+			"Open": "Aperti"
+		},
+		"HTTP": {
+			"CodeException": "Si è verificato un problema non previsto, si prega di riprovare più tardi",
+			"Default": "Servizio non disponibile, si prega di riprovare più tardi.",
+			"ErrorMap": [
+				{
+					"Match": "stringa_di_controllo",
+					"Message": "[%1, %2, %3, %4] Messaggio di errore"
+				}
+			],
+			"Status400": "Richiesta non valida.",
+			"Status401": "Accesso al servizio non autorizzato. Autenticarsi per avviare la sessione.",
+			"Status403": "Accesso non consentito.",
+			"Status404": "Servizio non trovato.",
+			"Status422": "Impossibile completare la richiesta.",
+			"Status500": "Errore interno del server.",
+			"Status504": "Timeout del gateway."
+		},
+		"LABEL": {
+			"All": "Tutti",
+			"Date": "Data",
+			"DateFrom": "Data da",
+			"DateTo": "Data a",
+			"Description": "Descrizione",
+			"FileName": "Nome del file",
+			"Id": "ID",
+			"Index": "Indice",
+			"Name": "Nome",
+			"Password": "Password",
+			"Status": "Stato",
+			"Type": "Tipo",
+			"UsernameEmail": "Nome utente o email"
+		},
+		"LABEL_HELP": {
+			"All": ""
+		},
+		"MENU": {
+			"Configurations": "Configurazioni",
+			"Dashboard": "Cruscotto",
+			"ExportCSV": "Esporta CSV",
+			"ExportPDF": "Esporta PDF",
+			"Home": "Home",
+			"Logout": "Logout"
+		},
+		"MESSAGE": {
+			"AreYouSure": "Sei sicuro di voler eliminare l'elemento selezionato?",
+			"ERROR": {
+				"Default": "Si è verificato un problema non previsto",
+				"DefaultHelp": "Si prega di riprovare più tardi",
+				"TimeoutError": "Si è verificato un timeout",
+				"Unauthorized": "Non autorizzato",
+				"Unprocessable Entity": "Entità non elaborabile"
+			},
+			"EsportingFile": "Sto esportando il documento…",
+			"InsertNotice": "Inserisci il numero dell'avviso e premi il pulsante di ricerca …",
+			"LOGIN": {
+				"PasswordRequired": "Password richiesta",
+				"UsernameRequired": "Nome utente richiesto",
+				"login_400": "Username o password errati. Controlla la corretta scrittura dei dati.",
+				"login_401": "Username o password errati. Oppure non sei autorizzato ad accedere.",
+				"login_403": "Username o password errati. Oppure non sei autorizzato ad accedere.",
+				"login_422": "Username o password errati. Oppure non sei autorizzato ad accedere.",
+				"valid_email": "Inserisci una mail valida",
+				"wrong_username_password": "Username o password errati. Controlla la corretta scrittura dei dati."
+			},
+			"NoAnnouncement": "Nessuna bando",
+			"NoBankAccount": "Nessun conto bancario",
+			"NoCandidacies": "Nessuna candidatura",
+			"NoData": "Spiacenti, le informazioni richieste non sono state trovate",
+			"NoDataHelp": "Controlla la tua connessione e riprova",
+			"NoNoticeResults": "Nessun avviso è stato trovato",
+			"NoNoticeResultsHelp": "Verifica il numero inserito o compila manualmente i dati del pagamento",
+			"NoPaymentsResults": "Non ci sono pagamenti",
+			"NoPaymentsResultsHelp": "Aggiungi un nuovo pagamento",
+			"NoResults": "Siamo spiacenti, il tuo filtro non ha prodotto risultati",
+			"NoResultsHelp": "Per ampliare la tua ricerca, cambia o rimuovi i filtri qui sopra",
+			"PageNumber": "Pagina {{page}} di {{total}}",
+			"Sign_in_message": "Accedi con il tuo account",
+			"VALIDATION": {
+				"FieldRequired": "Campo richiesto",
+				"GreaterThanEqual": "L'importo deve avere un valore maggiore o uguale a {{value}}",
+				"GreaterThanZero": "L'importo deve avere un valore maggiore di zero",
+				"LessThanEqual": "L'importo deve avere un valore minore o uguale a {{value}}",
+				"MaxAmount": "L'importo deve avere un valore massimo di {{value}}",
+				"MinAmount": "L'importo deve essere un valore maggiore di {{value}}",
+				"NoticeLenght": "Il numero avviso deve contenere {{value}} caratteri",
+				"Number": "Il valore deve essere un numero",
+				"OneOfLength": "La lunghezza deve essere uno dei seguenti valori",
+				"OrganizationTaxCode": "Il codice fiscale deve essere numerico e di 11 cifre",
+				"Range": "L'importo deve avere un valore compreso tra {{min}} e {{max}}",
+				"Taxcode": "Codice fiscale errato",
+				"TaxcodeVat": "Codice fiscale o partita IVA errati"
+			}
+		},
+		"PDF": {
+			"PAGE_NUMBER": "Pagina {{pageNumber}} di {{totalPages}}"
+		},
+		"PLACEHOLDER": {
+			"Search": "Cerca..."
+		},
+		"SEARCH": {
+			"ClearRecentSearches": "Cancella le ricerche recenti",
+			"NoRecentSearches": "Non hai ricerche recenti",
+			"RecentSearches": "Ricerche recenti",
+			"View": "Vista"
+		},
+		"SIDENAV": {
+			"Title": "GovHub"
+		},
+		"STATUS": {
+			"ACCETTATO": "Accettato",
+			"COMPLETATO": "Completato",
+			"ELABORATO": "Elaborato",
+			"ELABORAZIONE": "In elaborazione",
+			"ERRORE": "Errore",
+			"IN_ELABORAZIONE": "In elaborazione",
+			"NUOVO": "Nuovo",
+			"SCARTATO": "Scartato"
+		},
+		"TAB": {
+			"Content": "Contenuto",
+			"Details": "Dettagli"
+		},
+		"TABLE": {
+			"Amount": "Importo",
+			"AvailabilityDate": "Data Disp.",
+			"CandidacieId": "Codice",
+			"CandidateFullName": "Candidato",
+			"CandidateId": "Codice",
+			"CandidateTaxCode": "Codice Fiscale",
+			"Competition": "Concorso",
+			"CreditorReferenceId": "IUV",
+			"Description": "Descrizione",
+			"Organizer": "Organizzatore",
+			"PostingDate": "Data Publ.",
+			"ReportingFlowId": "ID flusso",
+			"Status": "Stato",
+			"Summary": "Riepilogo",
+			"Total": "Totale",
+			"TotalCandidacies": "Candidature totali",
+			"Totals": "Totali",
+			"TransactionReferenceNumber": "Riferimento"
+		},
+		"TITLE": {
+			"Applications": "Applicazioni",
+			"Attention": "Attenzione",
+			"Configurations": "Configurazioni",
+			"Dashboard": "Cruscotto",
+			"GeneralInformations": "Informazioni generali",
+			"Home": "Home",
+			"Login": "Login",
+			"New": "Nuovo",
+			"Reporting": "Reportistica",
+			"Watermark": "Staging"
+		},
+		"TOOLTIP": {
+			"Add": "Aggiungi",
+			"CancelEdit": "Annulla modifica",
+			"CancelNew": "Annulla inserimento",
+			"Export": "Esporta",
+			"ExportCSV": "Esporta documento CSV",
+			"ExportPDF": "Esporta documento PDF",
+			"Preview": "Anteprima",
+			"Remove": "Rimuovi"
+		},
+		"TYPE": {
+			"MANUALE": "Manuale"
+		}
+	}
+}
