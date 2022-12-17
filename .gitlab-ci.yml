@@ -1,0 +1,77 @@
+stages:
+    - test
+    - build
+    - deploy
+
+variables: 
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+    SONAR_HOST_URL: "http://localsonarqube:9000/"
+    SONAR_TOKEN: "squ_35c667f3567119d5702ffa5fb92ca6eaac5889a6"
+    SONAR_USER: "gitlab-runner"
+    SONAR_PASSWORD: "Password@123"
+    SSH_PRIVATE_KEY_STAGING: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAksYhjgR2gTMQeCcqJrHZDsj3FLrlhvro8cW9Oz16DYA8KIVANlYIJBorfp0C\ne4S+m0I/WqBzgys6h2ub1FGtJxDxp+RgoidIdbP7ofruOkpMLZGe09aUj+oZRqogPyq7uaM3/hM2\nDIGg6TAdJYzqrIvwhlcMztl2llprBCJ5XC6H31LwU2+Vp6H6EVrx7YTPC07N17x+hGrtMJZDqgls\nIRpmpJY/xMeOdeEsr/U9Fd35aSwOBcczQ2uea42kyI6ApuwqWVULxjSToNKv0i2+Ja3oQt9bTkz/\nIDMM0Ze3bVT5pM67spEIz+0kYaJU+KUw8uXrUTaVc2VKKJnQ1ga4nQIDAQABAoIBAHLgPBcJiy7o\nJrXEAYuzmy2lQS2qckdJTtUcbVVWcpbqjSsxz+Y3Q7vt96jrfqvqY7zlBu0JtB8v0Gl5Yce1/Y4c\nBuffKXsAwAfPzN0kpxxcVm88EFHBGxngodPbB84oxjEvfH2Rz7XOJ4EbtVRUjMBr7t9WdqHXNqfL\nMQNVcCMi37nYMbftOixCuUx7hOP9haX5LmOBO6dfcBzj2cwFigTzDlZgvbJd1RvJWlFzGfTRqzui\nek98zaVEBQu3bzKKRWA5TgBwjz92SZ98hG79oS3eZRK/jYd7aS9Ad4hSVShbyFu9xanatzb4F0cI\nJVaA8TFZwpUumDs9p3QceI7MNkECgYEA0bn2Y+91xyQWR/DKSCJaKwVVKg4aB8dKE0u+V+JuK8k0\nCQXGzJbPm7GM5Fdc809T7X/gpiMBCSmA/hNT18m9QZAjr6c64/GH6+ikqzEpsSKuUbH4C4ukyRFQ\ncfdQQ1+G5dGDLskG60sgdirBfGKdx8IknUr/tNb78q5EPaZ+X7kCgYEAsyhoBP+dho767wygqsEa\nXMbTspjWCxfn/PU5OpsKpYj+jgtV8U/9CqUdPj2Y64TcmD9EpgMPKi5FVAk6eZaw8je4IM/f7I85\naUuRhppRW6jqeOKCtwFydN6Yd5LPna8dN/OQskulwluRlnjrgS7qtxDmGPoZyKLFODTaKwzuqgUC\ngYAy7G2IPHejn/6M/0mOlFDCi2vvZzco1loFL2oLWt6XYSZyXmWz/ZZxXn4wX4ohRgzB6T/59xvk\nRqCckMLV7ZU3mzEfEIL7IAV54aZCLxDJgvtCuOzamNCtRbf7xCpIAaT2npW0wXkdnsNGDgGnGybm\nfxx22OQX2++XMHs/YPLkeQKBgQCu5K4O2x4DIocSX8hkiNfcY/h7a7nf4HmGtjkk3f+Zs0+UiLpg\nNQ63mpIelXE30V6rfW/dhDUEn2DsdYnQ8mtQOVaVKXjWbMbF5JBuzyzHBvHGCpFCZ7Y9IqPCbt4g\nd7dVTH8fnrt1LYDFXMvCM3PMPEHzdgs/kq5mfSnRRvGhpQKBgDnkB7xWRN11Cr2Vlez4VShqE0kd\nDen1BTNFT0izRNPyaOgkKuFEMNWZH9f+sOtGYA9njijZSYxzRDtdEG8yTuowixKeTGTjUqgCSiIj\nLuWSPq2B1i7iIozZoBc4C9n1V4GjhK0f/NY83gswvP6KSeBVt1JcncGNTYCY5Sx7P6Na\n-----END RSA PRIVATE KEY-----"
+    DEPLOY_STAGING_SSH_HOST: "ec2-user@172.16.1.121"
+default:
+    cache:
+        paths:
+            - .m2/repository/
+            - target/
+    image: maven:3-openjdk-11
+
+test:
+    stage: test
+    script:
+      - mvn verify sonar:sonar
+    artifacts:
+        untracked: false
+        name: test_and_coverage_report
+        reports:
+          junit: [ reverse-proxy/target/surefire-reports/*.xml ]
+        expire_in: "1 week"
+
+build_java:
+    stage: build
+    script:
+      - mvn verify -Pwar -DskipTests=true 
+    artifacts:
+        paths:
+          - reverse-proxy/target/*.war
+          - src/main/resources/*.sql
+    only:
+      - master
+      - pipeline-test
+
+build_angular:
+    stage: build
+    image: node:14.18.2-alpine3.15
+    script:
+      - cd webapp
+      - npm install
+      - npm run production-govshell
+      - tar czf govshell-app.tgz dist/*  
+    artifacts:
+        paths:
+          - webapp/govshell-app.tgz
+    only:
+      - master
+      - pipeline-test
+
+deploy_staging:
+  stage: deploy
+  image: kroniak/ssh-client
+  script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo -e "$SSH_PRIVATE_KEY_STAGING" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - scp -r webapp/govshell-app.tgz $DEPLOY_STAGING_SSH_HOST:/tmp/
+    - scp -r api/target/govshell.war $DEPLOY_STAGING_SSH_HOST:/tmp/
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo tar xvf /tmp/govshell-app.tgz'
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo cp -r dist/govshell-app/* /usr/share/nginx/html/govshell-app/'
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo cp -r /tmp/reverse-proxy.war /opt/wildfly/govhub/deployments/'  
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo systemctl restart wildfly@govhub'
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo rm -rf /tmp/govshell-app.tgz dist /tmp/reverse-proxy.war'
+  only:
+    - master
+    - pipeline-test
