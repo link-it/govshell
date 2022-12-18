@@ -56,16 +56,14 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    const body = JSON.stringify({ userName: username, password: password });
+    const body = `username=${username}&password=${password}`;
 
     let httpHeaders = new HttpHeaders();
-    // const _basiAuth = `${username}:${password}`;
-    // httpHeaders = httpHeaders.set("Authorization", "Basic " + btoa(_basiAuth));
+    httpHeaders = httpHeaders.set('Content-Type', 'application/x-www-form-urlencoded')
 
     const httpOptions = {
       params: {},
-      headers: httpHeaders,
-      // withCredentials: true
+      headers: httpHeaders
     };
 
     let url = `${this.appConfig.GOVAPI['HOST']}${this.API_LOGIN}`;

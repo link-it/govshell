@@ -4,7 +4,7 @@
   "Applications": [
     {
       "id": "govregistry",
-      "name": "govregistry",
+      "name": "GovRegistry",
       "app_url": "http://localhost:5201/",
       "logo": {
         "type": "bootstrap",
@@ -18,7 +18,7 @@
     },
     {
       "id": "govio",
-      "name": "govio",
+      "name": "GovIO",
       "app_url": "http://localhost:5202/",
       "logo": {
         "type": "svg",
@@ -31,49 +31,7 @@
       }
     },
     {
-      "id": "app-1",
-      "name": "APP 1",
-      "app_url": "https://www.repubblica.it",
-      "logo": {
-        "type": "bootstrap",
-        "url": "",
-        "icon": "bell",
-        "micon": "",
-        "icon_url": "",
-        "bg_color": "#ff6f00",
-        "color": "#ffffff"
-      }
-    },
-    {
-      "id": "app-2",
-      "name": "APP 2",
-      "app_url": "https://www.ilfattoquotidiano.it",
-      "logo": {
-        "type": "bootstrap",
-        "url": "",
-        "icon": "calendar",
-        "micon": "",
-        "icon_url": "",
-        "bg_color": "#009169",
-        "color": "#ffffff"
-      }
-    },
-    {
-      "id": "app-3",
-      "name": "APP 3",
-      "app_url": "https://www.open.online",
-      "logo": {
-        "type": "bootstrap",
-        "url": "",
-        "icon": "camera",
-        "micon": "",
-        "icon_url": "",
-        "bg_color": "#2351a5",
-        "color": "#ffffff"
-      }
-    },
-    {
-      "id": "app-3",
+      "id": "riconciliatore",
       "name": "Riconciliatore",
       "app_url": "http://localhost:4200/",
       "logo": {
