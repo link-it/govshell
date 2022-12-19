@@ -1,16 +1,25 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>it.govhub.govshell</groupId>
-    <artifactId>govshell</artifactId>
-    <version>1.0.0</version>
-    <name>GovHub Shell Application</name>
-    <packaging>pom</packaging>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>it.govhub.govshell</groupId>
+	<artifactId>govshell</artifactId>
+	<version>1.0.0</version>
+	<name>GovHub Shell Application</name>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>reverse-proxy</module>
-    </modules>
+	<modules>
+		<module>reverse-proxy</module>
+	</modules>
+	<repositories>
+		<repository>
+			<id>linkit-private</id>
+			<url>https://maven.link.it/content/repositories/private/</url>
+		</repository>
+		<repository>
+			<id>linkit-private-snapshot</id>
+			<url>https://maven.link.it/content/repositories/private_snapshots/</url>
+		</repository>
+	</repositories>
 </project>
