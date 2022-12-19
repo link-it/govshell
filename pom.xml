@@ -12,14 +12,5 @@
 	<modules>
 		<module>reverse-proxy</module>
 	</modules>
-	<repositories>
-		<repository>
-			<id>linkit-private</id>
-			<url>https://maven.link.it/content/repositories/private/</url>
-		</repository>
-		<repository>
-			<id>linkit-private-snapshot</id>
-			<url>https://maven.link.it/content/repositories/private_snapshots/</url>
-		</repository>
-	</repositories>
+
 </project>
