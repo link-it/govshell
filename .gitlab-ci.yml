@@ -52,7 +52,7 @@ build_angular:
         paths:
           - webapp/govshell-app.tgz
     only:
-      - master
+      - main
       - pipeline-test
 
 deploy_staging:
