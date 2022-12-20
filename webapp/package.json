@@ -6,7 +6,7 @@
     "start-govshell": "ng serve govshell-app --port 5200",
     "start-govshell-proxy": "ng serve govshell-app --proxy-config proxy.config.json --port 5200",
     "production-govshell": "node ./builder.version.js --project=govshell-app && npm run distribution-govshell",
-    "distribution-govshell": "npm run build-govshell && npm run clean-govshell",
+    "distribution-govshell": "npm run build-govshell",
     "build-govshell": "ng build govshell-app --configuration production --aot=true --base-href /govshell-app/",
     "clean-govshell": "rm -r ./dist/govshell-app/assets/scss && rm -r ./dist/govshell-app/assets/*.js",
     "start": "ng serve",
