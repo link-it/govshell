@@ -1,5 +1,5 @@
 stages:
-#    - test
+    - test
     - build
     - deploy
 
@@ -17,16 +17,16 @@ default:
             - target/
     image: maven:3-openjdk-11
 
-#test:
-#    stage: test
-#    script:
-#      - mvn verify sonar:sonar
-#    artifacts:
-#        untracked: false
-#        name: test_and_coverage_report
-#        reports:
-#          junit: [ reverse-proxy/target/surefire-reports/*.xml ]
-#        expire_in: "1 week"
+test:
+    stage: test
+    script:
+      - mvn verify sonar:sonar
+    artifacts:
+        untracked: false
+        name: test_and_coverage_report
+        reports:
+          junit: [ reverse-proxy/target/surefire-reports/*.xml ]
+        expire_in: "1 week"
 
 build_java:
     stage: build
