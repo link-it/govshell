@@ -3,8 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<version>1.0.0</version>
 	<groupId>it.govhub.govshell</groupId>
 	<artifactId>reverse-proxy</artifactId>
+	<packaging>${packaging.type}</packaging>	
 	<name>GovHub Reverse Proxy</name>
 	<description>Reverse Proxy per la connessione alle applicazioni di GovShell</description>
 
@@ -14,6 +16,31 @@
 		<version>2.7.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
+	<profiles>
+		<profile>
+			<id>jar</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<packaging.type>jar</packaging.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>war</id>
+			<properties>
+				<packaging.type>war</packaging.type>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 
 	<dependencies>
 	
@@ -57,11 +84,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
@@ -75,13 +97,13 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
-			<version>1.6.4</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-data-rest</artifactId>
-			<version>1.6.4</version>
+			<version>${springdoc.version}</version>
 		</dependency>
 		<!-- SpringDoc fine -->
 
@@ -137,7 +159,7 @@
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
-			<version>1.1.4</version>
+			<version>${glassfish.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -184,7 +206,7 @@
 			<plugin>
 			    <groupId>org.bsc.maven</groupId>
 			    <artifactId>maven-processor-plugin</artifactId>
-			    <version>4.5</version>
+			    <version>${maven-processor.version}</version>
 			    <executions>
 			        <execution>
 			            <id>process</id>
@@ -212,7 +234,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
+				<version>${jacoco.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -241,10 +263,22 @@
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
 		<jsonpatch.version>1.13</jsonpatch.version>
 		<jsr305.version>3.0.2</jsr305.version>
-		<spring-cloud-netflix-zool.version>2.2.10.RELEASE</spring-cloud-netflix-zool.version>
+		<springdoc.version>1.6.4</springdoc.version>
+		<glassfish.version>1.1.4</glassfish.version>
+		<jacoco.version>0.8.8</jacoco.version>
+		<maven-processor.version>4.5</maven-processor.version>
 	</properties>
 
-
+	<repositories>
+		<repository>
+			<id>linkit-private</id>
+			<url>https://maven.link.it/content/repositories/private/</url>
+		</repository>
+		<repository>
+			<id>linkit-private-snapshot</id>
+			<url>https://maven.link.it/content/repositories/private_snapshots/</url>
+		</repository>
+	</repositories>
 </project>
 
 
