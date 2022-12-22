@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.govhub.govregistry.commons.assemblers.ProfileAssembler;
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.UnreachableException;
 import it.govhub.security.services.SecurityService;
@@ -27,8 +28,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
 	private ObjectMapper jsonMapper;
 	
-	/*@Autowired
-	private UserAssembler userAssembler;*/
+	@Autowired
+	private ProfileAssembler profileAssembler;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -43,8 +44,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			
 	        UserEntity principal = SecurityService.getPrincipal();
 	        
-			//this.jsonMapper.writeValue(outputStream, this.userAssembler.toProfileModel(principal));
-	        this.jsonMapper.writeValue(outputStream, "ok");
+			this.jsonMapper.writeValue(outputStream, this.profileAssembler.toModel(principal));
 			
 			outputStream.flush();
 		}catch(Exception e) {
