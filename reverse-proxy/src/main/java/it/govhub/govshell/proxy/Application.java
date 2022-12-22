@@ -13,6 +13,7 @@ import org.springframework.security.web.firewall.RequestRejectedHandler;
 import it.govhub.govregistry.commons.config.CommonsExportedBeans;
 import it.govhub.govregistry.commons.config.TimeZoneConfigurer;
 import it.govhub.govregistry.commons.exception.handlers.RequestRejectedExceptionHandler;
+import it.govhub.security.config.SecurityExportedBeans;
 
 
 
@@ -26,9 +27,9 @@ import it.govhub.govregistry.commons.exception.handlers.RequestRejectedException
 
 @SpringBootApplication
 @EnableScheduling
-@Import({CommonsExportedBeans.class, TimeZoneConfigurer.class} )
-@EnableJpaRepositories("it.govhub.govshell.proxy")
-@EntityScan("it.govhub.govshell.proxy")
+@Import({CommonsExportedBeans.class, TimeZoneConfigurer.class, SecurityExportedBeans.class} )
+@EnableJpaRepositories("it.govhub.govshell.proxy.repository")
+@EntityScan("it.govhub.govshell.proxy.entities")
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

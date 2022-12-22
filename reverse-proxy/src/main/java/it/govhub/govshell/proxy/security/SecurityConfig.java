@@ -41,9 +41,6 @@ public class SecurityConfig{
 	private Integer maxSessions;
 	
 	@Autowired
-	private ObjectMapper jsonMapper;
-
-	@Autowired
 	private AccessDeniedHandlerImpl accessDeniedHandler;
 	
 	@Autowired
@@ -59,7 +56,7 @@ public class SecurityConfig{
 	protected GovhubUserDetailService userDetailService;
 
 	@Bean
-	public SecurityFilterChain securityFilterChainDev(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChainDev(HttpSecurity http, ObjectMapper jsonMapper) throws Exception {
 		applyAuthRules(http)
 			.csrf().disable()																												// Disabilita csrf perchè il cookie di sessione viene rilasciato con SameSite: strict
 		.formLogin()
@@ -70,7 +67,7 @@ public class SecurityConfig{
 		.and()
 		.exceptionHandling()
 		.accessDeniedHandler(this.accessDeniedHandler)																		// Gestisci accessDenied in modo da restituire un problem ben formato TODO: Vedi se a govshell serve davero
-		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(this.jsonMapper))			// Gestisci la mancata autenticazione con un problem ben formato
+		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(jsonMapper))			// Gestisci la mancata autenticazione con un problem ben formato
 		.and()
 		.logout()
 			.logoutUrl("/logout")

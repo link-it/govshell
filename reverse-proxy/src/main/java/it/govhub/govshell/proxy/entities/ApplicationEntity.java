@@ -1,7 +1,5 @@
 package it.govhub.govshell.proxy.entities;
 
-import java.net.URI;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;

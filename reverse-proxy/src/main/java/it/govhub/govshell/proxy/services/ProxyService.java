@@ -93,7 +93,7 @@ public class ProxyService {
         headers.set("X-Forwarded-Host",  this.proxyHostName);
         
         // Questo fa modificare la generazione dei link hateoas, che tengono in considerazione il prefisso del path con cui è stato chiamato il proxy
-        headers.set("X-Forwarded-Prefix",  "/"+applicationId);
+        headers.set("X-Forwarded-Prefix",  "/"+applicationId + "/api/v1");
 
 
         // TODO: la factory la si potrebbe invece reare una sola volta in fase di creazione del bean?
