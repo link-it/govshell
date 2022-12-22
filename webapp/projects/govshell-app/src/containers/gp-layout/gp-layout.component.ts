@@ -11,6 +11,7 @@ import { MenuAction } from 'projects/components/src/lib/classes/menu-action';
 import { EventType } from 'projects/tools/src/lib/classes/events';
 import { EventsManagerService } from 'projects/tools/src/lib/eventsmanager.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { OpenAPIService } from 'projects/govshell-app/src/services/openAPI.service';
 
 import { INavData } from './gp-sidebar-nav';
 import { GpSidebarNavHelper } from './gp-sidebar-nav.helper';
@@ -91,6 +92,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     private tools: Tools,
     private eventsManagerService: EventsManagerService,
     private authenticationService: AuthenticationService,
+    private apiService: OpenAPIService,
     public sidebarNavHelper: GpSidebarNavHelper
   ) {
     this._config = this.configService.getConfiguration();
@@ -116,6 +118,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     // }
 
     this._initLanguages();
+    // this.loadProfile()
     this._initMenuActions();
     this._onResize();
   }
@@ -170,6 +173,21 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
   }
 
   ngOnDestroy() {
+  }
+
+  loadProfile() {
+    this.apiService.getList('profile').subscribe(
+      (response: any) => {
+        console.log('profile response', response);
+        this.authenticationService.setCurrentSession(response);
+        this.authenticationService.reloadSession();
+
+        this._initMenuActions();
+      },
+      (error: any) => {
+        console.log('loadProfile error', error.error.status, error);
+      }
+    );
   }
 
   _initMenuActions() {
