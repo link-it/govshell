@@ -25,6 +25,8 @@ public class ProfileController implements ProfileApi {
 		
 		Profile ret = this.profileAssembler.toModel(principal.getUser());
 		
+		ret.setAuthorizations(null);
+		
 		return ResponseEntity.ok(ret);
 	}
 
