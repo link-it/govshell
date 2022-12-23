@@ -34,7 +34,10 @@ test:
 build_java:
     stage: build
     script:
-      - mvn verify -Pwar -DskipTests=true -U
+      - mkdir ~/.ssh
+      - chmod 700 ~/.ssh 
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - mvn -s /tmp/maven_settings/settings-repo_linkit.xml -U deploy -Pwar -DskipTests=true 
     artifacts:
         paths:
           - reverse-proxy/target/govshell-reverse-proxy.war
