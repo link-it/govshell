@@ -276,7 +276,7 @@
 		</repository>
 		<repository>
 			<id>linkit-private-snapshot</id>
-			<url>https://maven.link.it/content/repositories/private_snapshots/</url>
+			<url>https://maven.link.it/content/repositories/private-snapshots/</url>
 		</repository>
 	</repositories>
 </project>
