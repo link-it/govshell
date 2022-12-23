@@ -48,7 +48,7 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>it.govhub.security</groupId>
+			<groupId>it.govhub.govregistry</groupId>
 			<artifactId>security</artifactId>
 			<version>${govregistry.version}</version>
 		</dependency>
