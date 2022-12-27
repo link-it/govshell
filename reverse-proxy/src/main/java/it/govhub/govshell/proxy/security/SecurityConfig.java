@@ -19,8 +19,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.govhub.govregistry.commons.security.AccessDeniedHandlerImpl;
 import it.govhub.govregistry.commons.security.ProblemHttp403ForbiddenEntryPoint;
-import it.govhub.govregistry.commons.security.handlers.AccessDeniedHandlerImpl;
 import it.govhub.security.services.GovhubUserDetailService;
 
 
