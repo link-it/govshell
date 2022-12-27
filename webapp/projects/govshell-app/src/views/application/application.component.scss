@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  .application-container {
+    height: calc(100vh - var(--header-height, 48px));
+    margin-top: var(--content-wrapper-top, 48px);
+
+    .application-frame {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

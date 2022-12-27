@@ -1,0 +1,20 @@
+{
+  "/logout": {
+    "target": "http://localhost:9001",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/do-login": {
+    "target": "http://localhost:9001",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/profile": {
+    "target": "http://localhost:9001",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
