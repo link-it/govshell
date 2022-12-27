@@ -24,9 +24,6 @@ public class ProxyController {
     @Autowired
     ProxyService service;
     
-    /*@Autowired
-    UserAssembler userAssembler;*/
-    
     @RequestMapping("/{application_id}/**")
     public ResponseEntity<String> sendRequestToSPM(
     				@Parameter(name = "application_id", required = true) @PathVariable("application_id") String applicationId, 
