@@ -7,12 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.govhub.govregistry.commons.api.beans.Profile;
-import it.govhub.govregistry.commons.api.spec.ProfileApi;
-import it.govhub.govregistry.commons.assemblers.ProfileAssembler;
+import it.govhub.govregistry.readops.api.assemblers.ProfileAssembler;
+import it.govhub.govregistry.readops.api.spec.ProfileApi;
 import it.govhub.security.beans.GovhubPrincipal;
 
 @RestController
-public class ProfileController implements ProfileApi {
+public class GovshellProfileController implements ProfileApi {
 	
 	@Autowired
 	ProfileAssembler profileAssembler;
