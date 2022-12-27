@@ -106,6 +106,7 @@ public class ProxyService {
         headers.set("X-Forwarded-Host",  this.proxyHostName);
         
         // Questo fa modificare la generazione dei link hateoas, che tengono in considerazione il prefisso del path con cui è stato chiamato il proxy
+        // TODO: Questo /api/v1 nel forwarded-prefix forse devo parsarlo e inviare il parsato
         headers.set("X-Forwarded-Prefix",  "/"+applicationId + "/api/v1");
 
 
