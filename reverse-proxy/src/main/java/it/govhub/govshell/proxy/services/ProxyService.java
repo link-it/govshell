@@ -20,8 +20,10 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import it.govhub.govregistry.commons.entity.UserEntity;
@@ -30,6 +32,11 @@ import it.govhub.govshell.proxy.entities.ApplicationEntity;
 import it.govhub.govshell.proxy.messages.SystemMessages;
 import it.govhub.govshell.proxy.repository.ApplicationRepository;
 import it.govhub.security.services.SecurityService;
+
+/*
+ * GET /govregistryverse-proxy/govregistry/api/v1/organizations 
+    GET /govshell-reverse-proxy/govregistry/api/v1/organizations  
+ */
 
 @Service
 public class ProxyService {
@@ -47,21 +54,27 @@ public class ProxyService {
     private ApplicationRepository appRepo;
     
     private final static Logger logger =  LoggerFactory.getLogger(ProxyService.class);
-
-    public ResponseEntity<String> processProxyRequest(String applicationId, String body,
-                                                      HttpMethod method, HttpServletRequest request, HttpServletResponse response, String traceId) throws URISyntaxException {
+    
+    public ResponseEntity<String> processProxyRequest(
+    		String applicationId,
+    		String body,
+    		HttpMethod method, 
+    		HttpServletRequest request, 
+    		HttpServletResponse response, String traceId) throws URISyntaxException {
     	
         ThreadContext.put(this.traceHeaderName, traceId);
         
         ApplicationEntity application = this.appRepo.findByApplicationId(applicationId)
         		.orElseThrow(ResourceNotFoundException::new);
         
-        URI requestUri = new URI(request.getRequestURI());
-        URI applicationUri = new URI(application.getDeployedUri());
+        URI applicationUri = new URI(application.getDeployedUri());       
         
-        String requestPath = requestUri.getPath();
+        String requestPath = (String) request.getAttribute(
+                HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
         
         String resourcePath = requestPath.substring(applicationId.length()+1);
+        
+        logger.debug("Proxying request.\nApplicationId: {}\nApplicationURI: {}\nSourceRequestPath: {}",applicationId, applicationUri, resourcePath);
         
         URI resolvedUri = UriComponentsBuilder.fromUri(applicationUri)
         	.path(resourcePath)
@@ -93,6 +106,7 @@ public class ProxyService {
         headers.set("X-Forwarded-Host",  this.proxyHostName);
         
         // Questo fa modificare la generazione dei link hateoas, che tengono in considerazione il prefisso del path con cui è stato chiamato il proxy
+        // TODO: Questo /api/v1 nel forwarded-prefix forse devo parsarlo e inviare il parsato
         headers.set("X-Forwarded-Prefix",  "/"+applicationId + "/api/v1");
 
 
@@ -124,5 +138,6 @@ public class ProxyService {
             throw new RuntimeException(SystemMessages.REQUEST_CANT_BE_SATISFIED);
         }
     }
+    
 
 }
