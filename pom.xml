@@ -31,6 +31,8 @@
 		<springdoc.version>1.6.4</springdoc.version>
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
 		<wagon-ssh-external.version>1.0-beta-6</wagon-ssh-external.version>
+		<commons-fileupload.version>1.4</commons-fileupload.version>
+		
 	</properties>
 
 
