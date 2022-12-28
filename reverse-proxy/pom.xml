@@ -52,6 +52,12 @@
 			<artifactId>security</artifactId>
 			<version>${govregistry.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>it.govhub.govregistry</groupId>
+			<artifactId>readops</artifactId>
+			<version>${govregistry.version}</version>
+		</dependency>
 	
 
 		<!-- Spring Boot -->
