@@ -69,9 +69,10 @@ deploy_staging:
     - scp -r webapp/govshell-app.tgz $DEPLOY_STAGING_SSH_HOST:/tmp/
     - scp -r reverse-proxy/target/govshell-reverse-proxy.war $DEPLOY_STAGING_SSH_HOST:/tmp/
     - ssh $DEPLOY_STAGING_SSH_HOST 'sudo tar xvf /tmp/govshell-app.tgz'
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo systemctl stop tomcat'
     - ssh $DEPLOY_STAGING_SSH_HOST 'sudo cp -r dist/govshell-app/* /usr/share/nginx/html/govshell-app/'
-    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo cp -r /tmp/govshell-reverse-proxy.war /opt/wildfly/govhub/deployments/'  
-    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo systemctl restart wildfly@govhub'
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo cp -r /tmp/govshell-reverse-proxy.war /opt/apache-tomcat-9.0.70/webapps/'  
+    - ssh $DEPLOY_STAGING_SSH_HOST 'sudo systemctl start tomcat'
     - ssh $DEPLOY_STAGING_SSH_HOST 'sudo rm -rf /tmp/govshell-app.tgz dist /tmp/reverse-proxy.war'
   only:
     - staging
