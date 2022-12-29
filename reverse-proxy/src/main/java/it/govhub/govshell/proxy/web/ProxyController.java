@@ -1,6 +1,7 @@
 package it.govhub.govshell.proxy.web;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -17,7 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +65,7 @@ public class ProxyController {
     }*/
     
     @RequestMapping("/{application_id}/**")
-    public ResponseEntity<String> proxyMultipart(
+    public ResponseEntity<Resource> proxyMultipart(
     				@Parameter(name = "application_id", required = true) @PathVariable("application_id") String applicationId, 
     				HttpServletRequest request )
             throws URISyntaxException, IOException, InterruptedException {
@@ -113,9 +117,11 @@ public class ProxyController {
        HttpRequest newRequest = builder.build();
        
        HttpClient client = HttpClient.newHttpClient();
+       
+       HttpResponse<InputStream> response = client.send(newRequest, BodyHandlers.ofInputStream());
 
        // TODO: Qui il body handler scriverà sullo streamingResponseSTream?
-       HttpResponse<String> response = client.send(newRequest, BodyHandlers.ofString());
+//       HttpResponse<String> response = client.send(newRequest, BodyHandlers.ofString());
        
        logger.info("Got response from backend: {}", response.body());
        
@@ -128,9 +134,14 @@ public class ProxyController {
 
        logger.info("Returning request to the client.");
        
-       return ResponseEntity.status(response.statusCode())
+       InputStreamResource resourceStream = new InputStreamResource(response.body());
+       
+		ResponseEntity<Resource> ret =   new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK); 
+
+       return ret;
+/*       return ResponseEntity.status(response.statusCode())
     		   	.headers(retHeaders)
-    		    .body(response.body());
+    		    .body(response.body());*/
        
     }
 
