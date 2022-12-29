@@ -111,7 +111,7 @@ public class ProxyController {
 	    	   }
 	   }
 
-       builder.header("X-Forwarded-Prefix",  "/govshell-reverse-proxy");
+       builder.header("X-Forwarded-Prefix",  "/govshell-reverse-proxy/"+applicationId);
        
        // Aggiungo header di autenticazione 
        UserEntity principal = SecurityService.getPrincipal();
