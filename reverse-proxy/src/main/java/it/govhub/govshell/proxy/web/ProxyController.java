@@ -1,30 +1,25 @@
 package it.govhub.govshell.proxy.web;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.Builder;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Enumeration;
-import java.util.UUID;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
@@ -122,18 +117,21 @@ public class ProxyController {
        // TODO: Qui il body handler scriverà sullo streamingResponseSTream?
        HttpResponse<String> response = client.send(newRequest, BodyHandlers.ofString());
        
+       logger.info("Got response from backend: {}", response.body());
+       
        java.net.http.HttpHeaders respHeaders = response.headers();
        
        HttpHeaders retHeaders = new HttpHeaders();
        respHeaders.map().forEach( (key, values) -> {
     	   retHeaders.addAll(key, values);
        });
+
+       logger.info("Returning request to the client.");
        
        return ResponseEntity.status(response.statusCode())
     		   	.headers(retHeaders)
     		    .body(response.body());
        
     }
-    
 
 }
