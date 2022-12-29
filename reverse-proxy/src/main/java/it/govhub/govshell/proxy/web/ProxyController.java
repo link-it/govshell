@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,8 @@ public class ProxyController {
 	   Enumeration<String> headerNames = request.getHeaderNames();
 	   while (headerNames.hasMoreElements()) {
 	       String headerName = headerNames.nextElement();
-	       if (!headerName.equals(HttpHeaders.TRANSFER_ENCODING)) {
+	       
+	       if (!StringUtils.equalsIgnoreCase(headerName, HttpHeaders.TRANSFER_ENCODING)) {
 	    	   try {
 	    		   builder.header(headerName,request.getHeader(headerName));
 	    	   } catch (IllegalArgumentException e) {
