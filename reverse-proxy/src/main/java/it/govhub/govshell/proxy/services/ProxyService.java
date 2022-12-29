@@ -108,6 +108,8 @@ public class ProxyService {
         // Questo fa modificare la generazione dei link hateoas, che tengono in considerazione il prefisso del path con cui è stato chiamato il proxy
         // TODO: Questo /api/v1 nel forwarded-prefix forse devo parsarlo e inviare il parsato
         headers.set("X-Forwarded-Prefix",  "/"+applicationId + "/api/v1");
+        
+        // TODO: Fare una blacklist di headers da non inoltrare dalla risposta
 
 
         // TODO: la factory la si potrebbe invece reare una sola volta in fase di creazione del bean?
@@ -118,6 +120,7 @@ public class ProxyService {
 
             ResponseEntity<String> serverResponse = restTemplate.exchange(resolvedUri, method, httpEntity, String.class);
             HttpHeaders responseHeaders = new HttpHeaders();
+            serverResponse.getHeaders().remove(HttpHeaders.TRANSFER_ENCODING);
             responseHeaders.put(HttpHeaders.CONTENT_TYPE, serverResponse.getHeaders().get(HttpHeaders.CONTENT_TYPE));
             logger.info(serverResponse.toString());
             return serverResponse;
