@@ -10,10 +10,10 @@
 	</parent>
 
 	<artifactId>reverse-proxy</artifactId>
-	<packaging>${packaging.type}</packaging>	
+	<packaging>${packaging.type}</packaging>
 	<name>GovShell Reverse Proxy</name>
 	<description>Reverse Proxy per la connessione alle applicazioni di GovShell</description>
-	
+
 	<profiles>
 		<profile>
 			<id>jar</id>
@@ -40,32 +40,32 @@
 	</profiles>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>it.govhub.govregistry</groupId>
 			<artifactId>commons</artifactId>
 			<version>${govregistry.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>it.govhub.govregistry</groupId>
 			<artifactId>security</artifactId>
 			<version>${govregistry.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>it.govhub.govregistry</groupId>
 			<artifactId>readops</artifactId>
 			<version>${govregistry.version}</version>
 		</dependency>
-	
+
 
 		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -85,7 +85,7 @@
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -193,19 +193,13 @@
 			<artifactId>jsr305</artifactId>
 			<version>${jsr305.version}</version>
 		</dependency>
-		
-	 		<dependency>
+
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>${commons-fileupload.version}</version>
 		</dependency>
- 
-		<!-- WebClient -->
-		 <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency> 
-		
+
 	</dependencies>
 
 	<build>
@@ -216,33 +210,33 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
-			
+
+
 			<plugin>
-			    <groupId>org.bsc.maven</groupId>
-			    <artifactId>maven-processor-plugin</artifactId>
-			    <version>${maven-processor.version}</version>
-			    <executions>
-			        <execution>
-			            <id>process</id>
-			            <goals>
-			                <goal>process</goal>
-			            </goals>
-			            <phase>generate-sources</phase>
-			            <configuration>
-			                <processors>
-			                    <processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-			                </processors>
-			            </configuration>
-			        </execution>
-			    </executions>
-			    <dependencies>
-			        <dependency>
-			            <groupId>org.hibernate</groupId>
-			            <artifactId>hibernate-jpamodelgen</artifactId>
-			            <version>${hibernate.version}</version>
-			        </dependency>
-			    </dependencies>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>${maven-processor.version}</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<processors>
+								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+							</processors>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<version>${hibernate.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>

@@ -36,5 +36,30 @@ public class ProxyController {
         return service.processProxyRequest(applicationId, body,method,request,response,UUID.randomUUID().toString());
     }
     
+    @RequestMapping("/v1/{application_id}/**")
+    public ResponseEntity<String> proxyMultipart(
+    				@Parameter(name = "application_id", required = true) @PathVariable("application_id") String applicationId, 
+    				HttpServletRequest request )
+            throws URISyntaxException {
+    	
+    	//Resource resource = ...
+    	
+    //	FormPartEvent a = null;
+    	
+    	return null;
+	/*	Mono<String> result = webClient
+		    .post()
+		    .uri("https://example.com")
+		    .body(Flux.concat(
+		            FormPartEvent.create("field", "field value"),
+		            FilePartEvent.create("file", resource)
+		    ), PartEvent.class)
+		    .retrieve()
+		    .bodyToMono(String.class);*/
+    	
+    /*	WebClient client = WebClient.create();
+    					return null;*/
+    }
+    
 
 }
