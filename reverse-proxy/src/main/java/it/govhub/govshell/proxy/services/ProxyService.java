@@ -20,7 +20,6 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerMapping;
@@ -117,13 +116,18 @@ public class ProxyService {
         ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
         RestTemplate restTemplate = new RestTemplate(factory);
         try {
-
             ResponseEntity<String> serverResponse = restTemplate.exchange(resolvedUri, method, httpEntity, String.class);
+            
             HttpHeaders responseHeaders = new HttpHeaders();
-            serverResponse.getHeaders().remove(HttpHeaders.TRANSFER_ENCODING);
-            responseHeaders.put(HttpHeaders.CONTENT_TYPE, serverResponse.getHeaders().get(HttpHeaders.CONTENT_TYPE));
-            logger.info(serverResponse.toString());
-            return serverResponse;
+            serverResponse.getHeaders().forEach( (key, values) -> {
+            	responseHeaders.addAll(key, values);
+            });
+            
+            responseHeaders.remove(HttpHeaders.TRANSFER_ENCODING);
+            
+            return ResponseEntity.status(serverResponse.getStatusCode())
+            			.headers(responseHeaders)
+            			.body(serverResponse.getBody());
 
         } catch (HttpStatusCodeException  e) {
             logger.error(e.getMessage());
@@ -138,7 +142,7 @@ public class ProxyService {
             }
         } catch (Exception e) {
         	logger.error(e.getMessage());
-            throw new RuntimeException(SystemMessages.REQUEST_CANT_BE_SATISFIED);
+            throw new RuntimeException(e);
         }
     }
     
