@@ -1,8 +1,14 @@
 package it.govhub.govshell.proxy.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.UUID;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,8 +46,16 @@ public class ProxyController {
     public ResponseEntity<String> proxyMultipart(
     				@Parameter(name = "application_id", required = true) @PathVariable("application_id") String applicationId, 
     				HttpServletRequest request )
-            throws URISyntaxException {
+            throws URISyntaxException, IOException {
     	
+    	ServletInputStream inStream = request.getInputStream();
+    	
+    	
+    	HttpRequest newRequest = HttpRequest.newBuilder()
+    			  .uri(new URI("https://postman-echo.com/post"))
+    			  .headers("Content-Type", "text/plain;charset=UTF-8")
+    			  .POST(HttpRequest.BodyPublishers.ofInputStream(() -> inStream))
+    			  .build();
     	//Resource resource = ...
     	
     //	FormPartEvent a = null;
