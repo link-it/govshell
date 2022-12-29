@@ -104,6 +104,7 @@ public class ProxyController {
 	       String headerName = headerNames.nextElement();
 	       
 	       if (!StringUtils.equalsIgnoreCase(headerName, HttpHeaders.TRANSFER_ENCODING)) {
+	    	   logger.info("Appending header {}", headerName);
 	    	   try {
 	    		   builder.header(headerName,request.getHeader(headerName));
 	    	   } catch (IllegalArgumentException e) {
@@ -131,7 +132,10 @@ public class ProxyController {
        
        HttpHeaders retHeaders = new HttpHeaders();
        respHeaders.map().forEach( (key, values) -> {
-    	   retHeaders.addAll(key, values);
+    	   if (!StringUtils.equalsIgnoreCase(key, HttpHeaders.TRANSFER_ENCODING)) {
+	    	   logger.info("Appending header {}", key);
+	    	   retHeaders.addAll(key, values);
+    	   }
        });
 
        logger.info("Returning request to the client.");
