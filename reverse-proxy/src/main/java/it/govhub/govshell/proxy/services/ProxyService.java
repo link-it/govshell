@@ -52,7 +52,7 @@ public class ProxyService {
     @Autowired
     private ApplicationRepository appRepo;
     
-    private final static Logger logger =  LoggerFactory.getLogger(ProxyService.class);
+    private final Logger logger =  LoggerFactory.getLogger(ProxyService.class);
     
     public ResponseEntity<String> processProxyRequest(
     		String applicationId,
