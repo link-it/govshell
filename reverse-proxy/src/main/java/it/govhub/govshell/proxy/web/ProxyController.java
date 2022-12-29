@@ -102,17 +102,17 @@ public class ProxyController {
 	   Enumeration<String> headerNames = request.getHeaderNames();
 	   while (headerNames.hasMoreElements()) {
 	       String headerName = headerNames.nextElement();
-	       
-	       if (!StringUtils.equalsIgnoreCase(headerName, HttpHeaders.TRANSFER_ENCODING)) {
+	      
 	    	   logger.info("Appending header {}", headerName);
 	    	   try {
 	    		   builder.header(headerName,request.getHeader(headerName));
 	    	   } catch (IllegalArgumentException e) {
 	    		   logger.error("Header riservato {}", headerName);
 	    	   }
-	       }
 	   }
-	   
+
+       builder.header("X-Forwarded-Prefix",  "/govshell-reverse-proxy");
+       
        // Aggiungo header di autenticazione 
        UserEntity principal = SecurityService.getPrincipal();
        builder.header(this.headerAuthentication, principal.getPrincipal());
