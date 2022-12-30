@@ -91,7 +91,6 @@ public class SecurityConfig{
 	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		//.anyRequest().permitAll();
 		.anyRequest().authenticated();
 		return http;
 	}
