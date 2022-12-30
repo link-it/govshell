@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +45,10 @@ public class ProxyService {
 	
 	final Logger logger = LoggerFactory.getLogger(ProxyService.class);
 	
-	final static Set<String> reservedHeaders = Set.of(HttpHeaders.HOST, HttpHeaders.CONNECTION);
+	final static TreeSet<String> reservedHeaders = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+	static {
+		reservedHeaders.addAll(Set.of(HttpHeaders.HOST, HttpHeaders.CONNECTION));
+	}
 
 	@Value("${govshell.auth.header}")
 	String headerAuthentication;
@@ -85,6 +86,7 @@ public class ProxyService {
 
 		ThreadContext.put(this.traceHeaderName, traceId);
 
+		// Se l'applicazione non c'è, restituiamo un 404 come fosse una pagina non esistente
 		ApplicationEntity application = this.appRepo.findByApplicationId(applicationId)
 				.orElseThrow(ResourceNotFoundException::new);
 
@@ -109,14 +111,12 @@ public class ProxyService {
 		while (headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();
 			
-			if (reservedHeaders.contains(headerName)) {
-				continue;
-			}
-
-			try {
-				builder.header(headerName, request.getHeader(headerName));
-			} catch (IllegalArgumentException e) {
-				logger.error("Header riservato {}", headerName);
+			if (!reservedHeaders.contains(headerName)) {
+				try {
+					builder.header(headerName, request.getHeader(headerName));
+				} catch (IllegalArgumentException e) {
+					logger.error("Header riservato {}", headerName);
+				}
 			}
 		}
 
@@ -133,16 +133,12 @@ public class ProxyService {
 
 		logger.debug("Proxying request: {} - Got response from backend: {}", traceId, response.statusCode());
 
-		java.net.http.HttpHeaders respHeaders = response.headers();
-
 		HttpHeaders retHeaders = new HttpHeaders();
-		
-		respHeaders.map().forEach((key, values) -> {
+		response.headers().map().forEach((key, values) -> {
 			if (!this.responseBlackListHeaders.contains(key)) {
 				retHeaders.addAll(key, values);
 			}
 		});
-
 		
 		InputStreamResource resourceStream = new InputStreamResource(response.body());
 
