@@ -79,7 +79,7 @@ public class SecurityConfig{
 			.xssProtection()
             .and()
             .contentSecurityPolicy("default-src 'self'");																				// Politica di CSP più restrittiva. Il browser carica solo risorse dalla stessa origine. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-		;
+		
 		
 	    http.sessionManagement()
 	    	.maximumSessions(maxSessions)
