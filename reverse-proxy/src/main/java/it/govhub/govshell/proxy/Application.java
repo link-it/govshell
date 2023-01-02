@@ -1,9 +1,11 @@
 package it.govhub.govshell.proxy;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +39,9 @@ import it.govhub.security.config.SecurityExportedBeans;
 @EntityScan("it.govhub.govshell.proxy.entities")
 @ComponentScan( {"it.govhub.govregistry.readops.api.assemblers", "it.govhub.govshell.proxy"})
 public class Application extends SpringBootServletInitializer {
+	
+	@Value("${govhub.time-zone:Europe/Rome}")
+	String timeZone;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -51,6 +56,15 @@ public class Application extends SpringBootServletInitializer {
 	   return new RequestRejectedExceptionHandler();
 	}
 	
-    
-    
+
+	/**
+	 * Modifichiamo il jsonMapper impostando il timeZone
+	 *
+	 */
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+		return builder ->  builder.
+				timeZone(this.timeZone);
+	}
+	
 }

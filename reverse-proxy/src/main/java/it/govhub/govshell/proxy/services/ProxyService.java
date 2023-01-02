@@ -50,13 +50,13 @@ public class ProxyService {
 		reservedHeaders.addAll(Set.of(HttpHeaders.HOST, HttpHeaders.CONNECTION));
 	}
 
-	@Value("${govshell.auth.header}")
+	@Value("${govshell.auth.header:Govhub-Consumer-Principal}")
 	String headerAuthentication;
 
-	@Value("${govshell.proxy.trace.header-name}")
+	@Value("${govshell.proxy.trace.header-name:Govshell-Trace-Id}")
 	String traceHeaderName;
 
-	@Value("${govshell.proxy.forwarded-prefix}")
+	@Value("${govshell.proxy.forwarded-prefix:}")
 	String forwardedPrefix;
 	
 	@Autowired
@@ -67,8 +67,8 @@ public class ProxyService {
 	HttpClient client;
 	
 	public ProxyService(
-			@Value("${govshell.proxy.headers.response.blacklist}")	List<String> blackListHeaders,
-			@Value("${govshell.proxy.connection-timeout}")	Integer connectionTimeout) {
+			@Value("${govshell.proxy.headers.response.blacklist:}")	List<String> blackListHeaders,
+			@Value("${govshell.proxy.connection-timeout:10}")	Integer connectionTimeout) {
 		
 		this.responseBlackListHeaders = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 		this.responseBlackListHeaders.addAll(blackListHeaders);
