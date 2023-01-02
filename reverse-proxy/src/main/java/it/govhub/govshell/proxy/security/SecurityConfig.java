@@ -34,10 +34,10 @@ import it.govhub.security.services.GovhubUserDetailService;
 @EnableWebSecurity
 public class SecurityConfig{
 	
-	@Value("${server.servlet.session.cookie.name}")
+	@Value("${server.servlet.session.cookie.name:GOVHUB-JSESSIONID}")
 	private String sessionCookieName;
 	
-	@Value("${govshell.auth.max-sessions}")
+	@Value("${govshell.auth.max-sessions:10}")
 	private Integer maxSessions;
 	
 	@Autowired
