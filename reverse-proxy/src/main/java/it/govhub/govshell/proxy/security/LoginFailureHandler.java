@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -36,9 +38,16 @@ public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler 
 		
 		AuthenticationProblem problem = new AuthenticationProblem();
 		
-		problem.status = HttpStatus.FORBIDDEN.value();
-		problem.title = HttpStatus.FORBIDDEN.getReasonPhrase();
-		problem.detail = exception.getMessage();
+		// Non è stato possibile trovare l'utente o la password è errata
+		if ( exception instanceof BadCredentialsException) {
+			problem.status = HttpStatus.FORBIDDEN.value();
+			problem.title = HttpStatus.FORBIDDEN.getReasonPhrase();
+			problem.detail = exception.getLocalizedMessage();
+		} else {
+			problem.status = HttpStatus.INTERNAL_SERVER_ERROR.value();
+			problem.title = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
+			problem.detail = "La richiesta non può essere soddisfatta al momento.";
+		}
 		
 		// imposto il content-type della risposta
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE);
@@ -51,7 +60,7 @@ public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler 
 			this.jsonMapper.writeValue(outputStream, problem);
 			outputStream.flush();
 		}catch(Exception e) {
-			throw new UnreachableException();
+			throw new UnreachableException(e);
 		}
 	}
 
