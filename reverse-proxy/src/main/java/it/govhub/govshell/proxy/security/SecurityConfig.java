@@ -79,13 +79,20 @@ public class SecurityConfig{
 			.xssProtection()
             .and()
             .contentSecurityPolicy("default-src 'self'");																				// Politica di CSP più restrittiva. Il browser carica solo risorse dalla stessa origine. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-		;
 		
 	    http.sessionManagement()
 	    	.maximumSessions(maxSessions)
 	    	.expiredSessionStrategy(this.expiredSessionHandler);
 	
 		return http.build();
+	}
+
+	
+	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
+		http
+		.authorizeRequests()
+		.anyRequest().authenticated();
+		return http;
 	}
 	
 
@@ -105,16 +112,6 @@ public class SecurityConfig{
 	    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 	            response.setStatus(HttpServletResponse.SC_OK);
 	    }
-	}
-	
-	
-	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
-		
-		http
-		.authorizeRequests()
-		.anyRequest().authenticated();
-		
-		return http;
 	}
 	
 }
