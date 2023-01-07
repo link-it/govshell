@@ -9,7 +9,6 @@ import { LinkLabModule } from 'projects/link-lab/src/lib/link-lab.module';
 import { HeadBarComponent } from './head-bar/head-bar.component';
 import { NavBarComponent, FilterActionsPipe, InnerHTMLPipe } from './nav-bar/nav-bar.component';
 // import { SidenavMenuComponent } from './sidenav-menu/sidenav-menu.component';
-// import { LayoutComponent } from './layout/layout.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SpidComponent } from './spid/spid.component';
 // import { YesnoDialogComponent } from './dialogs/yesno-dialog/yesno-dialog.component';
@@ -42,6 +41,7 @@ import { OrderByPipe } from './pipes/ordeby.pipe';
 import { HighlighterPipe } from './pipes/highlighter.pipe';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { MapperPipe } from './pipes/mapper.pipe';
 
 // Directives
 import { RouterLinkMatchDirective } from './directives/router-link-match.directive';
@@ -101,6 +101,7 @@ import { CountUpeModule } from './directives/count-up.module';
     HighlighterPipe,
     SafeHtmlPipe,
     SafeUrlPipe,
+    MapperPipe,
 
     // Directives
     RouterLinkMatchDirective,
@@ -145,6 +146,7 @@ import { CountUpeModule } from './directives/count-up.module';
     HighlighterPipe,
     SafeHtmlPipe,
     SafeUrlPipe,
+    MapperPipe,
 
     // Directives
     RouterLinkMatchDirective,

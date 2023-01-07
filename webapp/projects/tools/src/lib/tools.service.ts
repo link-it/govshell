@@ -182,7 +182,7 @@ export class Tools {
   public static generateFields(fields: any, data: any, empty: boolean | string = false, options: any = null) {
     const _list: any[] = [];
     fields.map((field: any) => {
-      if (field.type === 'downnload') {
+      if (field.type === 'download') {
         _list.push(new FieldClass({ label: 'APP.LABEL.Content', value: field.field, download: true, icon: 'download', json: data }));
       } else {
         const value = Tools.getObjectValue(data, field.field); // data[field.field]
