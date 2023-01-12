@@ -1,16 +1,14 @@
 package it.govhub.govshell.proxy.web;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,20 +22,14 @@ public class ProxyController {
     @Autowired
     ProxyService service;
     
-    /*@Autowired
-    UserAssembler userAssembler;*/
-    
     @RequestMapping("/{application_id}/**")
-    public ResponseEntity<String> sendRequestToSPM(
+    public ResponseEntity<Resource> proxyMultipart(
     				@Parameter(name = "application_id", required = true) @PathVariable("application_id") String applicationId, 
-    				@RequestBody(required = false) String body,
-    				HttpMethod method, 
-    				HttpServletRequest request, 
-    				HttpServletResponse response) 
-            throws URISyntaxException {
+    				HttpServletRequest request )
+            throws URISyntaxException, IOException, InterruptedException {
     	
-        return service.processProxyRequest(applicationId, body,method,request,response,UUID.randomUUID().toString());
+    	return this.service.processProxyRequest(applicationId, request);
+       
     }
-    
 
 }
