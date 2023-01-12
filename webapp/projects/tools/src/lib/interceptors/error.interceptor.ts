@@ -19,8 +19,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError(err => {
       if ([401].indexOf(err.status) !== -1) {
         Tools.OnError(err, this.translate.instant('APP.MESSAGE.ERROR.Unauthorized'));
+        const _errorState: any = { from: 'GovShell', message: 'APP.MESSAGE.ERROR.Unauthorized' };
         setTimeout(() => {
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login'], { state: _errorState });
         }, 500);
       }
 
