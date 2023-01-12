@@ -15,7 +15,7 @@
           </div>
           <div class="flash-alert mb-2" *ngIf="!errorCode && error">
             <i class="bi bi-exclamation-triangle s16 mr-2"></i>
-            <span>{{ 'APP.MESSAGE.ERROR.Default' | translate }}</span>
+            <span>{{ (error.message || 'APP.MESSAGE.ERROR.Default') | translate }}</span>
             <div class="close-icon-wrapper js-close-icon" (click)="_closeAlert()">
               <i class="bi bi-x-lg"></i>
             </div>
