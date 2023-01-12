@@ -19,8 +19,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.govhub.govregistry.commons.security.AccessDeniedHandlerImpl;
 import it.govhub.govregistry.commons.security.ProblemHttp403ForbiddenEntryPoint;
-import it.govhub.govregistry.commons.security.handlers.AccessDeniedHandlerImpl;
 import it.govhub.security.services.GovhubUserDetailService;
 
 
@@ -34,11 +34,14 @@ import it.govhub.security.services.GovhubUserDetailService;
 @EnableWebSecurity
 public class SecurityConfig{
 	
-	@Value("${server.servlet.session.cookie.name}")
+	@Value("${server.servlet.session.cookie.name:GOVHUB-JSESSIONID}")
 	private String sessionCookieName;
 	
-	@Value("${govshell.auth.max-sessions}")
+	@Value("${govshell.auth.max-sessions:10}")
 	private Integer maxSessions;
+	
+    @Value("${govhub.csp.policy:default-src 'self'}")
+    String cspPolicy;
 	
 	@Autowired
 	private AccessDeniedHandlerImpl accessDeniedHandler;
@@ -66,8 +69,10 @@ public class SecurityConfig{
 			.permitAll()
 		.and()
 		.exceptionHandling()
-		.accessDeniedHandler(this.accessDeniedHandler)																		// Gestisci accessDenied in modo da restituire un problem ben formato TODO: Vedi se a govshell serve davero
-		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(jsonMapper))			// Gestisci la mancata autenticazione con un problem ben formato
+		// Gestisci accessDenied in modo da restituire un problem ben formato TODO: Vedi se a govshell serve davero
+		.accessDeniedHandler(this.accessDeniedHandler)																
+		// Gestisci la mancata autenticazione con un problem ben formato
+		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(jsonMapper))	
 		.and()
 		.logout()
 			.logoutUrl("/logout")
@@ -78,14 +83,23 @@ public class SecurityConfig{
 		.headers()
 			.xssProtection()
             .and()
-            .contentSecurityPolicy("default-src 'self'");																				// Politica di CSP più restrittiva. Il browser carica solo risorse dalla stessa origine. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-		;
+         // Politica di CSP più restrittiva. https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+         // Anche le immagini dal gravatar
+        .contentSecurityPolicy(this.cspPolicy);
 		
 	    http.sessionManagement()
 	    	.maximumSessions(maxSessions)
 	    	.expiredSessionStrategy(this.expiredSessionHandler);
 	
 		return http.build();
+	}
+
+	
+	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
+		http
+		.authorizeRequests()
+		.anyRequest().authenticated();
+		return http;
 	}
 	
 
@@ -105,16 +119,6 @@ public class SecurityConfig{
 	    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 	            response.setStatus(HttpServletResponse.SC_OK);
 	    }
-	}
-	
-	
-	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
-		
-		http
-		.authorizeRequests()
-		.anyRequest().authenticated();
-		
-		return http;
 	}
 	
 }
