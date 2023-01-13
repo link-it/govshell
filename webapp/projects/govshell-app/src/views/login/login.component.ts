@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Navigation } from '@angular/router';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -16,16 +16,16 @@ import { Tools } from 'projects/tools/src/public-api';
 export class LoginComponent implements OnInit {
 
   model: any = { username: '', password: '' };
-  loading = false;
+  loading: boolean = false;
   returnUrl: string = '/';
-  error = null;
-  errorCode = '';
+  error: any = null;
+  errorCode: string = '';
 
-  signup_disabled = true;
+  signup_disabled: boolean = true;
 
   config: any;
 
-  version = '0.0.1';
+  version: string = '0.0.1';
 
   _formGroup: UntypedFormGroup = new UntypedFormGroup({});
 
@@ -43,6 +43,15 @@ export class LoginComponent implements OnInit {
     private configService: ConfigService
   ) {
     this.config = this.configService.getConfiguration();
+    const _currentNav: Navigation | null = this.router.getCurrentNavigation();
+    if (_currentNav?.extras.state) {
+      if (_currentNav?.extras.state.from ) {
+        this.error = {
+          from: _currentNav?.extras.state.from,
+          message: _currentNav?.extras.state.message
+        };
+      }
+    }
   }
 
   ngOnInit() {
