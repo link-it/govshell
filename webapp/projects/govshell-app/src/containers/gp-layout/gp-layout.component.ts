@@ -145,6 +145,20 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     }
   }
 
+  @HostListener('window:message', ['$event'])
+  onMessage(e: any) {
+    if (e.data) {
+      switch (e.data.action) {
+        case 'logout':
+          this.router.navigate(['/auth/login'], { state: e.data });
+          break;
+        default:
+          console.log('GovShell - window:message', e.data);
+          break;
+      }
+    }
+  }
+
   ngOnInit() {
     this.eventsManagerService.on(EventType.NAVBAR_OPEN, (event: any) => {
       this.__openSideBar();
