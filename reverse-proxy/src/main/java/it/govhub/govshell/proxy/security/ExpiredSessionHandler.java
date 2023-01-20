@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.govhub.govregistry.commons.beans.AuthenticationProblem;
 import it.govhub.govregistry.commons.exception.UnreachableException;
 import it.govhub.govregistry.commons.exception.handlers.RestResponseEntityExceptionHandler;
+import it.govhub.govregistry.commons.messages.SystemMessages;
 
 @Component
 public class ExpiredSessionHandler implements SessionInformationExpiredStrategy {
@@ -35,7 +36,7 @@ public class ExpiredSessionHandler implements SessionInformationExpiredStrategy 
 		
 		problem.status = HttpStatus.UNAUTHORIZED.value();
 		problem.title = HttpStatus.UNAUTHORIZED.getReasonPhrase();
-		problem.detail = "This session has been expired (possibly due to multiple concurrent logins being attempted as the same user)";
+		problem.detail = SystemMessages.sessionExpired();
 		
 		// imposto il content-type della risposta
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PROBLEM_JSON_VALUE);

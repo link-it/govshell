@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.govhub.govregistry.commons.beans.AuthenticationProblem;
 import it.govhub.govregistry.commons.exception.UnreachableException;
 import it.govhub.govregistry.commons.exception.handlers.RestResponseEntityExceptionHandler;
+import it.govhub.govregistry.commons.messages.SystemMessages;
 
 
 
@@ -46,7 +46,7 @@ public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler 
 		} else {
 			problem.status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 			problem.title = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-			problem.detail = "La richiesta non può essere soddisfatta al momento.";
+			problem.detail = SystemMessages.internalError();
 		}
 		
 		// imposto il content-type della risposta
