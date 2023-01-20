@@ -1,5 +1,6 @@
 package it.govhub.govshell.proxy.services;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -33,9 +34,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import it.govhub.govregistry.commons.api.beans.Problem;
 import it.govhub.govregistry.commons.entity.ApplicationEntity;
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.ResourceNotFoundException;
+import it.govhub.govregistry.commons.exception.handlers.RestResponseEntityExceptionHandler;
+import it.govhub.govregistry.commons.messages.SystemMessages;
 import it.govhub.govshell.proxy.repository.ApplicationRepository;
 import it.govhub.security.services.SecurityService;
 
@@ -61,6 +67,9 @@ public class ProxyService {
 	
 	@Autowired
 	ApplicationRepository appRepo;
+	
+	@Autowired
+	ObjectMapper jsonMapper;
 	
 	TreeSet<String> responseBlackListHeaders;
 	
@@ -133,17 +142,28 @@ public class ProxyService {
 
 		logger.debug("Proxying request: {} - Got response from backend: {}", traceId, response.statusCode());
 
-		HttpHeaders retHeaders = new HttpHeaders();
-		response.headers().map().forEach((key, values) -> {
-			if (!this.responseBlackListHeaders.contains(key)) {
-				retHeaders.addAll(key, values);
-			}
-		});
+		ResponseEntity<Resource> ret;
 		
-		InputStreamResource resourceStream = new InputStreamResource(response.body());
-
-		logger.debug("Proxying request: {} - Returning response to the client.", traceId);
-		ResponseEntity<Resource> ret = new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK);
+		if (response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+			
+			Problem p = RestResponseEntityExceptionHandler.buildProblem(HttpStatus.BAD_GATEWAY, SystemMessages.internalError());
+			ByteArrayInputStream bs = new ByteArrayInputStream(jsonMapper.writeValueAsString(p).getBytes());
+			InputStreamResource resourceStream = new InputStreamResource(bs);
+			
+			ret = new ResponseEntity<>(resourceStream, HttpStatus.BAD_GATEWAY);
+		} else {
+			
+			HttpHeaders retHeaders = new HttpHeaders();
+			response.headers().map().forEach((key, values) -> {
+				if (!this.responseBlackListHeaders.contains(key)) {
+					retHeaders.addAll(key, values);
+				}
+			});
+			
+			InputStreamResource resourceStream = new InputStreamResource(response.body());
+			logger.debug("Proxying request: {} - Returning response to the client.", traceId);
+			ret = new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK);
+		}
 
 		return ret;
 	}
