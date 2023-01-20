@@ -3,6 +3,7 @@ package it.govhub.govshell.proxy.services;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -138,19 +139,38 @@ public class ProxyService {
 
 		HttpRequest newRequest = builder.build();
 
-		HttpResponse<InputStream> response = this.client.send(newRequest, BodyHandlers.ofInputStream());
-
-		logger.debug("Proxying request: {} - Got response from backend: {}", traceId, response.statusCode());
-
-		ResponseEntity<Resource> ret;
-		
+		HttpResponse<InputStream> response = null;
+		try {
+			
+			response = this.client.send(newRequest, BodyHandlers.ofInputStream());
+			logger.debug("Proxying request: {} - Got response from backend: {}", traceId, response.statusCode());
+			
+		} catch (ConnectException e) {
+			
+			logger.error("Connect Exception while contacting the backend: " + e.getLocalizedMessage());
+			
+			Problem p = RestResponseEntityExceptionHandler.buildProblem(HttpStatus.BAD_GATEWAY, "Can't connect to the backend service.");
+			ByteArrayInputStream bs = new ByteArrayInputStream(jsonMapper.writeValueAsString(p).getBytes());
+			InputStreamResource resourceStream = new InputStreamResource(bs);
+			
+			return new ResponseEntity<>(resourceStream, HttpStatus.BAD_GATEWAY);
+		} catch (InterruptedException e) {
+			
+			logger.error("Request to the backend was aborted: " + e.getLocalizedMessage());
+			
+			Problem p = RestResponseEntityExceptionHandler.buildProblem(HttpStatus.BAD_GATEWAY, "Request to the backend service took to much.");
+			ByteArrayInputStream bs = new ByteArrayInputStream(jsonMapper.writeValueAsString(p).getBytes());
+			InputStreamResource resourceStream = new InputStreamResource(bs);
+			
+			return new ResponseEntity<>(resourceStream, HttpStatus.BAD_GATEWAY);
+		}		
 		if (response.statusCode() == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 			
 			Problem p = RestResponseEntityExceptionHandler.buildProblem(HttpStatus.BAD_GATEWAY, SystemMessages.internalError());
 			ByteArrayInputStream bs = new ByteArrayInputStream(jsonMapper.writeValueAsString(p).getBytes());
 			InputStreamResource resourceStream = new InputStreamResource(bs);
 			
-			ret = new ResponseEntity<>(resourceStream, HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(resourceStream, HttpStatus.BAD_GATEWAY);
 		} else {
 			
 			HttpHeaders retHeaders = new HttpHeaders();
@@ -162,9 +182,8 @@ public class ProxyService {
 			
 			InputStreamResource resourceStream = new InputStreamResource(response.body());
 			logger.debug("Proxying request: {} - Returning response to the client.", traceId);
-			ret = new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK);
+			return new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK);
 		}
 
-		return ret;
 	}
 }
