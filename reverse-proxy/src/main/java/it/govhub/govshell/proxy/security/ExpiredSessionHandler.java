@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,9 +29,14 @@ public class ExpiredSessionHandler implements SessionInformationExpiredStrategy 
 	
 	@Autowired
 	private ObjectMapper jsonMapper;
+	
+	Logger log = LoggerFactory.getLogger(ExpiredSessionHandler.class);
 
 	@Override
 	public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
+		
+		log.debug("Session expired for principal {}", event.getSessionInformation().getPrincipal());
+		
 		HttpServletResponse response = event.getResponse();
 		
 		AuthenticationProblem problem = new AuthenticationProblem();

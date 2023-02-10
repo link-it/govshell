@@ -7,6 +7,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,13 +33,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Autowired
 	private ProfileAssembler profileAssembler;
+	
+	Logger log = LoggerFactory.getLogger(LoginSuccessHandler.class);
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+		log.debug("Logged in succesfully, responding with user info.");
 
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpStatus.OK.value());
+		
 		
 		ServletOutputStream outputStream = null;
 		try{

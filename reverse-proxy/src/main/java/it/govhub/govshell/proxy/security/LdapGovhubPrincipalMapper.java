@@ -30,7 +30,7 @@ import it.govhub.security.repository.SecurityUserRepository;
  *
  */
 @Service
-public class LdapUserDetailsContextMapper extends LdapUserDetailsMapper {
+public class LdapGovhubPrincipalMapper extends LdapUserDetailsMapper {
 
 	@Autowired
 	SecurityUserRepository userRepo;
@@ -38,13 +38,15 @@ public class LdapUserDetailsContextMapper extends LdapUserDetailsMapper {
 	@Autowired
 	UserMessages userMessages;
 	
-	Logger logger = LoggerFactory.getLogger(LdapUserDetailsContextMapper.class);
+	Logger logger = LoggerFactory.getLogger(LdapGovhubPrincipalMapper.class);
 
 	@Override
 	@Cacheable(cacheNames = Caches.PRINCIPALS, key = "#username")
 	public UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<? extends GrantedAuthority> authorities) {
-		logger.debug("Mappo Utenza Ldap in un GovhubPrincipal..");
-		UserDetails details = super.mapUserFromContext(ctx, username, authorities);
+		logger.debug("Mappo Utenza Ldap in un GovhubPrincipal.");
+		
+		// Ignoro gli userDetails 
+		super.mapUserFromContext(ctx, username, authorities);
 
 		UserEntity user = this.userRepo.findAndPreloadByPrincipal(username)
 				.orElseThrow(() -> new UsernameNotFoundException(this.userMessages.principalNotFound(username)));
