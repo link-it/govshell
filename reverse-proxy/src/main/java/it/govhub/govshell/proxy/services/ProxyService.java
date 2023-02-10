@@ -93,6 +93,7 @@ public class ProxyService {
 			throws URISyntaxException, IOException, InterruptedException {
 
 		String traceId = UUID.randomUUID().toString();
+		logger.debug("Handling request with traceId [{}]", traceId);
 
 		ThreadContext.put(this.traceHeaderName, traceId);
 

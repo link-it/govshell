@@ -24,7 +24,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.govhub.govregistry.commons.security.AccessDeniedHandlerImpl;
-import it.govhub.govregistry.commons.security.ProblemHttp403ForbiddenEntryPoint;
+import it.govhub.govregistry.commons.security.UnauthorizedAuthenticationEntryPoint;
 
 
 
@@ -65,7 +65,7 @@ public class SecurityConfig{
 	private ExpiredSessionHandler expiredSessionHandler;
 	
 	@Autowired
-	LdapUserDetailsContextMapper contextMapper;
+	LdapGovhubPrincipalMapper contextMapper;
 	
 	Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 	
@@ -83,7 +83,7 @@ public class SecurityConfig{
 		// Gestisci accessDenied in modo da restituire un problem ben formato TODO: Vedi se a govshell serve davero
 		.accessDeniedHandler(this.accessDeniedHandler)																
 		// Gestisci la mancata autenticazione con un problem ben formato
-		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(jsonMapper))	
+		.authenticationEntryPoint(new UnauthorizedAuthenticationEntryPoint(jsonMapper))	
 		.and()
 		.logout()
 			.logoutUrl("/logout")
@@ -104,10 +104,6 @@ public class SecurityConfig{
 	
 		return http.build();
 	}
-	
-	@Autowired
-	private Environment env;
-	
 	
 	  @Autowired
 	  public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -132,15 +128,6 @@ public class SecurityConfig{
 		  
 	  }
 		  
-		// TODO: Questa roba  si può configurare anche nell'application.properties e forse sarebbe meglio?
-		  /*  ldap.urls= ldap://ldap.forumsys.com:389/
-				ldap.base.dn= dc=example,dc=com
-				ldap.username= cn=read-only-admin,dc=example,dc=com
-				ldap.password= password
-				ldap.user.dn.pattern = uid={0}
-			
-				*/
-	
 	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()

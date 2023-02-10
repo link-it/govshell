@@ -8,6 +8,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,14 +34,16 @@ public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler 
 	@Autowired
 	private ObjectMapper jsonMapper;
 	
+	Logger log = LoggerFactory.getLogger(LoginFailureHandler.class);
+	
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,	AuthenticationException exception) throws IOException, ServletException {
+		log.debug("Login request failed: {}", request);
 		
 		AuthenticationProblem problem = new AuthenticationProblem();
 		
 		// Non è stato possibile trovare l'utente o la password è errata
-		if ( exception instanceof BadCredentialsException) {
+		if (exception instanceof BadCredentialsException) {
 			problem.status = HttpStatus.FORBIDDEN.value();
 			problem.title = HttpStatus.FORBIDDEN.getReasonPhrase();
 			problem.detail = exception.getLocalizedMessage();
