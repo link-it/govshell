@@ -17,7 +17,7 @@ public class CacheConfig {
 	private Logger logger = LoggerFactory.getLogger(CacheConfig.class);
 	
 	@CacheEvict(value = APPLICATIONS, allEntries = true)
-	@Scheduled(fixedRateString = "${caching.govhub.applications.TTL}")
+	@Scheduled(fixedRateString = "${caching.govhub.applications.TTL:300000}")
 	public void emptyApplicationsCache() {
 		logger.info("CLEARING " + APPLICATIONS + " CACHE.");
 	}

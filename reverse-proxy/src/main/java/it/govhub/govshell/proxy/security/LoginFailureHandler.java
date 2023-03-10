@@ -8,13 +8,14 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.govhub.govregistry.commons.beans.AuthenticationProblem;
 import it.govhub.govregistry.commons.exception.UnreachableException;
 import it.govhub.govregistry.commons.exception.handlers.RestResponseEntityExceptionHandler;
+import it.govhub.govregistry.commons.messages.SystemMessages;
 
 
 
@@ -32,21 +34,23 @@ public class LoginFailureHandler  extends SimpleUrlAuthenticationFailureHandler 
 	@Autowired
 	private ObjectMapper jsonMapper;
 	
+	Logger log = LoggerFactory.getLogger(LoginFailureHandler.class);
+	
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException exception) throws IOException, ServletException {
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,	AuthenticationException exception) throws IOException, ServletException {
+		log.debug("Login request failed: {}", request);
 		
 		AuthenticationProblem problem = new AuthenticationProblem();
 		
 		// Non è stato possibile trovare l'utente o la password è errata
-		if ( exception instanceof BadCredentialsException) {
+		if (exception instanceof BadCredentialsException) {
 			problem.status = HttpStatus.FORBIDDEN.value();
 			problem.title = HttpStatus.FORBIDDEN.getReasonPhrase();
 			problem.detail = exception.getLocalizedMessage();
 		} else {
 			problem.status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 			problem.title = HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase();
-			problem.detail = "La richiesta non può essere soddisfatta al momento.";
+			problem.detail = SystemMessages.internalError();
 		}
 		
 		// imposto il content-type della risposta
