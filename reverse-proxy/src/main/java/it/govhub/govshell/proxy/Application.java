@@ -15,6 +15,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+
 import it.govhub.govregistry.commons.config.CommonsExportedBeans;
 import it.govhub.govregistry.commons.config.TimeZoneConfigurer;
 import it.govhub.govregistry.commons.exception.handlers.RequestRejectedExceptionHandler;
@@ -64,7 +67,8 @@ public class Application extends SpringBootServletInitializer {
 	@Bean
 	public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
 		return builder ->  builder.
-				timeZone(this.timeZone);
+				timeZone(this.timeZone)
+				.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 	}
 	
 }
