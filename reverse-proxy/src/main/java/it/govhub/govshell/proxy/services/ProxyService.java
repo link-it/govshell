@@ -183,7 +183,7 @@ public class ProxyService {
 			
 			InputStreamResource resourceStream = new InputStreamResource(response.body());
 			logger.debug("Proxying request: {} - Returning response to the client.", traceId);
-			return new ResponseEntity<>(resourceStream, retHeaders, HttpStatus.OK);
+			return new ResponseEntity<>(resourceStream, retHeaders, response.statusCode());
 		}
 
 	}
