@@ -1,20 +1,23 @@
 {
   "/logout": {
-    "target": "http://localhost:9001",
+    "target": "http://172.16.1.121:8083/govshell-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/do-login": {
-    "target": "http://localhost:9001",
+    "target": "http://172.16.1.121:8083/govshell-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/profile": {
-    "target": "http://localhost:9001",
+    "target": "http://172.16.1.121:8083/govshell-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
   }
 }
