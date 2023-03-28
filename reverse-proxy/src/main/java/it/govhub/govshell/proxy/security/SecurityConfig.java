@@ -6,10 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -20,8 +24,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import it.govhub.govregistry.commons.security.AccessDeniedHandlerImpl;
-import it.govhub.govregistry.commons.security.ProblemHttp403ForbiddenEntryPoint;
-import it.govhub.security.services.GovhubUserDetailService;
+import it.govhub.govregistry.commons.security.UnauthorizedAuthenticationEntryPoint;
 
 
 
@@ -42,6 +45,12 @@ public class SecurityConfig{
 	
     @Value("${govhub.csp.policy:default-src 'self'}")
     String cspPolicy;
+    
+    @Value("${govshell.auth.type:form}")
+    String authType;
+    
+    @Autowired
+    LdapConfiguration ldapConfiguration;
 	
 	@Autowired
 	private AccessDeniedHandlerImpl accessDeniedHandler;
@@ -56,8 +65,10 @@ public class SecurityConfig{
 	private ExpiredSessionHandler expiredSessionHandler;
 	
 	@Autowired
-	protected GovhubUserDetailService userDetailService;
-
+	LdapGovhubPrincipalMapper contextMapper;
+	
+	Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+	
 	@Bean
 	public SecurityFilterChain securityFilterChainDev(HttpSecurity http, ObjectMapper jsonMapper) throws Exception {
 		applyAuthRules(http)
@@ -72,7 +83,7 @@ public class SecurityConfig{
 		// Gestisci accessDenied in modo da restituire un problem ben formato TODO: Vedi se a govshell serve davero
 		.accessDeniedHandler(this.accessDeniedHandler)																
 		// Gestisci la mancata autenticazione con un problem ben formato
-		.authenticationEntryPoint(new ProblemHttp403ForbiddenEntryPoint(jsonMapper))	
+		.authenticationEntryPoint(new UnauthorizedAuthenticationEntryPoint(jsonMapper))	
 		.and()
 		.logout()
 			.logoutUrl("/logout")
@@ -93,8 +104,30 @@ public class SecurityConfig{
 	
 		return http.build();
 	}
-
 	
+	  @Autowired
+	  public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		  
+		  if (authType.equals("ldap") ) {
+			  logger.info("Configuring Ldap Authentication..");
+			  
+			  auth
+		      .ldapAuthentication()
+		        .userDnPatterns(this.ldapConfiguration.getUserDnPatterns())
+  	            .userSearchFilter(this.ldapConfiguration.getUserSearchFilter())
+		        .userSearchBase(this.ldapConfiguration.getUserSearchBase())
+		        .groupSearchBase(this.ldapConfiguration.getGroupSearchBase())
+		        .groupSearchFilter(this.ldapConfiguration.getGroupSearchFilter())
+		        .userDetailsContextMapper(contextMapper)
+		        .contextSource()
+		          .url(this.ldapConfiguration.getServerUrl())	
+		          .port(this.ldapConfiguration.getServerPort())
+		          .managerDn(this.ldapConfiguration.getManagerDn())
+		    	  .managerPassword(this.ldapConfiguration.getManagerPassword());
+		  }
+		  
+	  }
+		  
 	private HttpSecurity applyAuthRules(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
