@@ -92,6 +92,7 @@
 				"login_400": "Username o password errati. Controlla la corretta scrittura dei dati.",
 				"login_401": "Username o password errati. Controlla la corretta scrittura dei dati.",
 				"login_403": "Username o password errati. Controlla la corretta scrittura dei dati.",
+				"login_404": "Resource not found.",
 				"login_422": "Username o password errati. Oppure non sei autorizzato ad accedere.",
 				"valid_email": "Insert valid email",
 				"wrong_username_password": "Username e/o Password errati."

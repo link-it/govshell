@@ -2,7 +2,7 @@
   <div class="alert-wrapper gp-force-block-formatting-context">
     <ui-breadcrumb [breadcrumbs]="breadcrumbs"></ui-breadcrumb>
   </div>
-  <section class="container-fluid container-scroller container-scroller-no-search px-0 container-scroller-no-top-area">
+  <section class="container-fluid container-limited container-scroller container-scroller-no-search px-0 container-scroller-no-top-area">
     <ui-box-spinner [color]="'accent'" [diameter]="48" [strokeWidth]="4" *ngIf="_spin"></ui-box-spinner>
     <ng-container>
       <div class="dashboard" *ngIf="!_spin">
@@ -29,10 +29,10 @@
                     </div>
                   </ng-container>
                   <ng-container *ngSwitchCase="'svg'">
-                    <div class="d-flex justify-content-center app-icon-image"
-                      [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
+                    <!-- <div class="d-flex justify-content-center app-icon-image"
+                      [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}"> -->
                       <img [src]="menu.iconUrl" *ngIf="menu.iconUrl">
-                    </div>
+                    <!-- </div> -->
                   </ng-container>
                 </ng-container>
               </div>
