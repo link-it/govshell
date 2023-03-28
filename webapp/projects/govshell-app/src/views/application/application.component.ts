@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
@@ -19,6 +19,7 @@ import { Tools } from 'projects/tools/src/lib/tools.service';
 })
 export class ApplicationComponent implements OnInit, AfterContentChecked {
   static readonly Name = 'ApplicationComponent';
+  @ViewChild('sectionIframe') sectionIframe!: ElementRef;
 
   config: any;
   appConfig: any;
@@ -85,6 +86,10 @@ export class ApplicationComponent implements OnInit, AfterContentChecked {
 
   onLoadIFrame(event: any) {
     // console.log('iFrame Load', event);
+  }
+
+  onIframeClick(event: any) {
+    this.sectionIframe.nativeElement.click();
   }
 
   _sanitizeUrl(url: string): SafeUrl {
