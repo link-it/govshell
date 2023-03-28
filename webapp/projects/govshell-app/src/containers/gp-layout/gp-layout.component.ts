@@ -147,13 +147,13 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
 
   @HostListener('window:message', ['$event'])
   onMessage(e: any) {
-    if (e.data) {
+    if (e.data && e.data.action) {
       switch (e.data.action) {
         case 'logout':
           this.router.navigate(['/auth/login'], { state: e.data });
           break;
         default:
-          console.log('GovShell - window:message', e.data);
+          // console.log('GovShell - window:message', e.data);
           break;
       }
     }
@@ -223,10 +223,6 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       (config: any) => {
         const _apps = config.Applications || [];
         _apps.forEach(async (item: any) => {
-          let _isEnabled = true;
-          if (item.id !== 'dashboard') {
-            _isEnabled = await urlExist(item.app_url);
-          }
           this._menuAppActions.push(
             new MenuAction({
               title: item.name,
@@ -239,10 +235,20 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
               iconUrl: item.logo.icon_url,
               bgColor: item.logo.bg_color,
               color: item.logo.color,
-              enabled: _isEnabled
+              enabled: false
             })
           );
         });
+
+        this._menuAppActions.map(async (item: any) => {
+          let _isEnabled = false;
+          if (item.action !== 'dashboard') {
+            _isEnabled = await urlExist(item.url);
+            item.enabled = _isEnabled;
+          }
+          return item;
+        });
+
         Tools.Applications = this._menuAppActions;
       }
     );

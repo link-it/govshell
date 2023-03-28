@@ -40,10 +40,7 @@
                         </div>
                       </ng-container>
                       <ng-container *ngSwitchCase="'svg'">
-                        <div class="d-flex justify-content-center app-icon-image"
-                          [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
-                          <img [src]="menu.iconUrl" *ngIf="menu.iconUrl">
-                        </div>
+                        <img [src]="menu.iconUrl" *ngIf="menu.iconUrl">
                       </ng-container>
                     </ng-container>
                   </div>
