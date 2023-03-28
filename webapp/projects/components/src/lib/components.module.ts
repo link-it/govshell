@@ -50,6 +50,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { TextUppercaseModule } from './directives/uppercase.module';
 import { TextLowercaseModule } from './directives/lowercase.module';
 import { CountUpeModule } from './directives/count-up.module';
+import { IframeTrackerModule } from './directives/iframe-tracker.module';
 
 @NgModule({
   imports: [
@@ -78,7 +79,8 @@ import { CountUpeModule } from './directives/count-up.module';
     // Directives
     TextUppercaseModule,
     TextLowercaseModule,
-    CountUpeModule
+    CountUpeModule,
+    IframeTrackerModule
   ],
   declarations: [
     ComponentsComponent,
@@ -154,7 +156,8 @@ import { CountUpeModule } from './directives/count-up.module';
     ClickOutsideDirective,
     TextUppercaseModule,
     TextLowercaseModule,
-    CountUpeModule
+    CountUpeModule,
+    IframeTrackerModule
   ]
 })
 export class ComponentsModule { }
