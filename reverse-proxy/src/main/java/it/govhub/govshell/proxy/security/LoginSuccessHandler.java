@@ -1,6 +1,9 @@
 package it.govhub.govshell.proxy.security;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import it.govhub.govregistry.commons.api.beans.Authorization;
 import it.govhub.govregistry.commons.api.beans.Profile;
 import it.govhub.govregistry.commons.entity.UserEntity;
 import it.govhub.govregistry.commons.exception.UnreachableException;
@@ -51,7 +55,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	        UserEntity principal = SecurityService.getPrincipal();
 	        
 	        Profile user = this.profileAssembler.toModel(principal);
-	        user.setAuthorizations(null);
+	        
+	        OffsetDateTime now = OffsetDateTime.now();
+
+			List<Authorization> newAuthorizations = user.getAuthorizations().stream()
+					.filter( auth -> auth.getExpirationDate() == null || now.compareTo(auth.getExpirationDate()) < 0 )
+					.collect(Collectors.toList());
+			
+			user.setAuthorizations(newAuthorizations);
 	        
 			this.jsonMapper.writeValue(outputStream, user);
 			
