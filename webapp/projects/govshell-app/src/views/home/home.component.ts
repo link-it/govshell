@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ConfigService } from 'projects/tools/src/lib/config.service';
 import { Tools } from 'projects/tools/src/lib/tools.service';
@@ -59,11 +59,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      setTimeout(() => {
-        Tools.WaitForResponse(false);
-      }, this.config.AppConfig.DELAY || 0);
-    });
   }
 
   ngOnDestroy() {

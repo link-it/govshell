@@ -21,7 +21,7 @@
   </div>
 </header>
 <div class="layout-page hide-when-top-nav-responsive-open" [ngClass]="{ 'page-with-contextual-sidebar': _isGovShell && !_notSideBar, 'page-with-icon-sidebar': _sideBarCollapsed && desktop && (_isGovShell && !_notSideBar) }">
-  <aside class="nav-sidebar" [ngClass]="{ 'sidebar-collapsed-desktop': _sideBarCollapsed && desktop, 'sidebar-expanded-mobile': !_sideBarCollapsed && !desktop && !mobile || _openSideBar  }" *ngIf="_isGovShell && !_notSideBar">
+  <aside class="nav-sidebar" [ngClass]="{ 'sidebar-collapsed-desktop': _sideBarCollapsed && desktop, 'sidebar-expanded-mobile': !_sideBarCollapsed && !desktop && !mobile || _openSideBar  }" *ngIf="_isGovShell && !_notSideBar && !_spin">
     <div class="nav-sidebar-inner-scroll">
       <ul class="sidebar-top-level-items">
         <ng-container *ngFor="let _item of navItems">
