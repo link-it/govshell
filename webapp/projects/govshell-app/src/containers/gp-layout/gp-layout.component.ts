@@ -118,7 +118,6 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     // }
 
     this._initLanguages();
-    // this.loadProfile()
     this._initMenuActions();
     this._onResize();
   }
@@ -169,10 +168,13 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
         this.__toggelCollapse();
       }
     });
+
+    // this.loadProfile();
   }
 
   ngAfterContentChecked() {
-    this._spin = this.tools.getSpinner() && this.tools.isSpinnerGlobal();
+    // this._spin = this.tools.getSpinner() && this.tools.isSpinnerGlobal();
+
     if (Tools.CurrentApplication && Tools.CurrentApplication.menu) {
       this._title = Tools.CurrentApplication.menu.title;
       this._isGovShell = (Tools.CurrentApplication.menu.action === 'dashboard');
@@ -190,16 +192,18 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
   }
 
   loadProfile() {
+    this._spin = true;
     this.apiService.getList('profile').subscribe(
       (response: any) => {
-        console.log('profile response', response);
+        // console.log('profile response', response);
         this.authenticationService.setCurrentSession(response);
         this.authenticationService.reloadSession();
-
         this._initMenuActions();
+        this._spin = false;
       },
       (error: any) => {
         console.log('loadProfile error', error.error.status, error);
+        this._spin = false;
       }
     );
   }

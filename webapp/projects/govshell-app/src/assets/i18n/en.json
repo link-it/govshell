@@ -62,7 +62,7 @@
 			"Password": "Password",
 			"Status": "Status",
 			"Type": "Type",
-			"UsernameEmail": "Username or email"
+			"UsernameEmail": "Username"
 		},
 		"LABEL_HELP": {
 			"All": ""
@@ -130,7 +130,8 @@
 			"PAGE_NUMBER": "Page {{pageNumber}} of {{totalPages}}"
 		},
 		"PLACEHOLDER": {
-			"Search": "Search..."
+			"Search": "Search...",
+			"UsernameEmail": "Username"
 		},
 		"SEARCH": {
 			"ClearRecentSearches": "Clear recent searches",
