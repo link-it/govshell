@@ -48,10 +48,10 @@ export class IframeTrackerDirective implements OnInit {
   }
 
   private resetFocusOnWindow() {
-    setTimeout(() => {
-      this.log('reset focus to window');
-      window.focus();
-    }, 100);
+    // setTimeout(() => {
+    //   this.log('reset focus to window');
+    //   window.focus();
+    // }, 100);
   }
 
   private log(message: string) {
