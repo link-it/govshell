@@ -123,4 +123,8 @@ export class DashboardComponent implements OnInit, AfterContentChecked {
       }
     }
   }
+
+  hasAuthorizationsForApplication = (name: string): boolean => {
+    return this.authenticationService.hasAuthorizationsForApplication(name);
+  };
 }

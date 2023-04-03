@@ -11,38 +11,38 @@ export const AUTH_CONST: any = {
   storageSession: 'GOSH_SESSION'
 };
 
-export const USER_ADMIN: string = 'govshell_sysadmin';
+export const USER_ADMIN: string = 'amministratore';
 
 export const PERMISSIONS: any = {
   govhub_organizations_editor: [
     { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govhub_organizations_viewer: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govhub_services_editor: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govhub_services_viewer: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govhub_users_editor: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govhub_users_viewer: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govio_sender: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govio_viewer: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govio_service_instance_editor: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ],
   govio_service_instance_viewer: [
-    { name: 'DASHBOARD', view: true, edit: true, create: true, delete: true }
+    { name: 'DASHBOARD', view: true, edit: false, create: false, delete: false }
   ]
 };
 
@@ -59,6 +59,8 @@ export class AuthenticationService {
   API_LOGIN: string = '/do-login';
   API_PROFILE: string = '/profile';
   API_LOGOUT: string = '/logout';
+
+  _noProfile: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -98,6 +100,10 @@ export class AuthenticationService {
     localStorage.removeItem(AUTH_CONST.storageSession);
     let url = `${this.appConfig.GOVAPI['HOST']}${this.API_LOGOUT}`;
     return this.http.get(url);
+  }
+
+  setNoProfile(value: boolean) {
+    this._noProfile = value;
   }
 
   setCurrentSession(data: any) {
@@ -165,7 +171,7 @@ export class AuthenticationService {
 
   hasPermission(value: string, grant = 'view') {
     const uValue = value;
-    if (this.isAdmin() || uValue === 'PUBLIC') { return true; }
+    if (this.isAdmin() || uValue === 'PUBLIC' || this._noProfile) { return true; }
     const permissions = this.getPermissions();
     const idx = permissions.findIndex((auth: any) => auth.name === uValue);
     const permission = (idx > -1) ? permissions[idx] : null;
@@ -173,5 +179,12 @@ export class AuthenticationService {
       return permission[grant];
     }
     return false;
+  }
+
+  hasAuthorizationsForApplication(name: string) {
+    if (this.isAdmin() || this._noProfile) { return true; }
+    const _auths: any[] = this.getAuthorizations();
+    const idx = _auths.findIndex((auth: any) => auth.role.application.toLowerCase() === name.toLowerCase() );
+    return (idx > -1 || this.getUser() === USER_ADMIN);
   }
 }
