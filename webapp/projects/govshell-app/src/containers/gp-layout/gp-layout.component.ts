@@ -169,7 +169,9 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       }
     });
 
-    // this.loadProfile();
+    // setTimeout(() => {
+    //   this.loadProfile();
+    // }, 200);
   }
 
   ngAfterContentChecked() {
@@ -227,21 +229,23 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       (config: any) => {
         const _apps = config.Applications || [];
         _apps.forEach(async (item: any) => {
-          this._menuAppActions.push(
-            new MenuAction({
-              title: item.name,
-              action: item.id,
-              url: item.app_url,
-              type: item.logo.type,
-              image: item.logo.url,
-              icon: item.logo.icon,
-              micon: item.logo.micon,
-              iconUrl: item.logo.icon_url,
-              bgColor: item.logo.bg_color,
-              color: item.logo.color,
-              enabled: false
-            })
-          );
+          if (this.authenticationService.hasAuthorizationsForApplication(item.name)) {            
+            this._menuAppActions.push(
+              new MenuAction({
+                title: item.name,
+                action: item.id,
+                url: item.app_url,
+                type: item.logo.type,
+                image: item.logo.url,
+                icon: item.logo.icon,
+                micon: item.logo.micon,
+                iconUrl: item.logo.icon_url,
+                bgColor: item.logo.bg_color,
+                color: item.logo.color,
+                enabled: false
+              })
+            );
+          }
         });
 
         this._menuAppActions.map(async (item: any) => {
