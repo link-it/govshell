@@ -9,35 +9,36 @@
         <h4 class="d-none">{{ 'APP.TITLE.Applications' | translate }}</h4>
         <div class="ui-application-grid other-menu app-switcher-menu position-relative mt-4" tabindex="0">
           <div class="ui-application-grid-scroll-container position-relative">
-            <div class="ui-application-grid-item app-switcher-grid-cell" [ngClass]="{'menu-disabled': !menu.enabled}" role="menuitem"
-              aria-label="Apri Mail" tabindex="-1" *ngFor="let menu of _menuAppActions" (click)="_onMenuAppAction(menu)">
-              <div class="app-icon">
-                <ng-container [ngSwitch]="menu.type">
-                  <ng-container *ngSwitchCase="'image'">
-                    <img [src]="menu.image">
+            <ng-container *ngFor="let menu of _menuAppActions">
+              <div class="ui-application-grid-item app-switcher-grid-cell" [ngClass]="{'menu-disabled': !menu.enabled}" role="menuitem" tabindex="-1" (click)="_onMenuAppAction(menu)">
+                <div class="app-icon">
+                  <ng-container [ngSwitch]="menu.type">
+                    <ng-container *ngSwitchCase="'image'">
+                      <img [src]="menu.image">
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'bootstrap'">
+                      <div class="d-flex justify-content-center app-icon-image"
+                        [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
+                        <i class="bi bi-{{ menu.icon || 'app' }} symbol-icon align-self-center" *ngIf="menu.icon"></i>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'material'">
+                      <div class="d-flex justify-content-center app-icon-image"
+                        [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
+                        <mat-icon fontSet="material-icons-outlined" *ngIf="menu.micon">{{ menu.micon }}</mat-icon>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'svg'">
+                      <!-- <div class="d-flex justify-content-center app-icon-image"
+                        [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}"> -->
+                        <img [src]="menu.iconUrl" *ngIf="menu.iconUrl">
+                      <!-- </div> -->
+                    </ng-container>
                   </ng-container>
-                  <ng-container *ngSwitchCase="'bootstrap'">
-                    <div class="d-flex justify-content-center app-icon-image"
-                      [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
-                      <i class="bi bi-{{ menu.icon || 'app' }} symbol-icon align-self-center" *ngIf="menu.icon"></i>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngSwitchCase="'material'">
-                    <div class="d-flex justify-content-center app-icon-image"
-                      [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}">
-                      <mat-icon fontSet="material-icons-outlined" *ngIf="menu.micon">{{ menu.micon }}</mat-icon>
-                    </div>
-                  </ng-container>
-                  <ng-container *ngSwitchCase="'svg'">
-                    <!-- <div class="d-flex justify-content-center app-icon-image"
-                      [ngStyle]="{'background-color': menu.bgColor, 'color': menu.color}"> -->
-                      <img [src]="menu.iconUrl" *ngIf="menu.iconUrl">
-                    <!-- </div> -->
-                  </ng-container>
-                </ng-container>
+                </div>
+                <div class="app-switcher-app-name" role="presentation">{{ menu.title }}</div>
               </div>
-              <div class="app-switcher-app-name" role="presentation">{{ menu.title }}</div>
-            </div>
+            </ng-container>
           </div>
         </div>
 
