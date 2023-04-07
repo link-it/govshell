@@ -99,6 +99,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     this._showHeaderBar = this._config.AppConfig.Layout.showHeaderBar || false;
     this._forceMenuOpen = this._config.AppConfig.Layout.forceMenuOpen || false;
     this._title = this._config.AppConfig.Layout.Header.title;
+    this._menuShellAction.title = this._config.AppConfig.Layout.Header.title;
 
     if (!this._showHeaderBar) {
       document.documentElement.style.setProperty('--header-height', this._showHeaderBar ? '48px' : '0px');
