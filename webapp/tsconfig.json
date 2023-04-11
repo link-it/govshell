@@ -10,7 +10,10 @@
       "vendors": [
         "dist/vendors/vendors",
         "dist/vendors"
-      ]
+      ],
+      "@app/*": ["projects/govshell-app/src/*"],
+      "@env": ["projects/govshell-app/src/environments/environment"],
+      "@services/*": ["projects/govshell-app/src/services/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

@@ -95,7 +95,7 @@
                       <form novalidate class="new_user gl-show-field-errors js-sign-in-form" [formGroup]="_formGroup" (ngSubmit)="login(_formGroup.value)">
                         <div class="form-group gl-px-5 gl-pt-5">
                           <label for="user_login" class="label-bold">{{ 'APP.LABEL.UsernameEmail' | translate }}</label>
-                          <input class="form-control gl-form-input top" id="username" type="text" placeholder="Username" formControlName="username" autofocus="autofocus" autocomplete="on" autocorrect="off">
+                          <input class="form-control gl-form-input top" id="username" type="text" placeholder="{{ 'APP.PLACEHOLDER.UsernameEmail' | translate }}" formControlName="username" autofocus="autofocus" autocomplete="on" autocorrect="off">
                           <p *ngIf="f['username'].errors && f['username'].errors['required'] && f['username'].touched" class="help-block text-danger mb-0 gl-field-error">{{ 'APP.MESSAGE.LOGIN.UsernameRequired' | translate }}</p>
                         </div>
                         <div class="form-group gl-px-5">
@@ -117,7 +117,7 @@
                         <div></div>
                         <div class="submit-container move-submit-down gl-px-5">
                           <button type="submit" class="gl-button btn btn-block btn-confirm" [disabled]="_formGroup.invalid || loading">
-                            {{ 'APP.BUTTON.Login' | translate }} <span class="spinner-border spinner-border-sm" *ngIf="loading"></span>
+                            {{ 'APP.BUTTON.Login' | translate }}<span class="spinner-border spinner-border-sm ms-2" *ngIf="loading"></span>
                           </button>
                           </div>
                       </form>

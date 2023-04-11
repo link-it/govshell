@@ -47,6 +47,12 @@
 }
 
 // Application Dropdown
+.dropdown-menu {
+  &.dropdown-ui-menu {
+    min-width: 15.4rem;
+  }
+}
+
 .ui-menu {
   &.app-switcher-menu {
     .app-switcher-wide-item {
@@ -184,6 +190,7 @@
 
     .app-icon {
       display: inline-block;
+      border-radius: .3rem;
 
       img {
         width: 54px;
