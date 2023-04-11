@@ -1,14 +1,13 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ConfigService } from 'projects/tools/src/lib/config.service';
 import { EventsManagerService } from 'projects/tools/src/lib/eventsmanager.service';
 import { EventType } from 'projects/tools/src/lib/classes/events';
-import { PageloaderService } from 'projects/tools/src/lib/pageloader.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Tools } from 'projects/tools/src/lib/tools.service';
 
@@ -19,6 +18,7 @@ import { Tools } from 'projects/tools/src/lib/tools.service';
 })
 export class ApplicationComponent implements OnInit, AfterContentChecked {
   static readonly Name = 'ApplicationComponent';
+  @ViewChild('sectionIframe') sectionIframe!: ElementRef;
 
   config: any;
   appConfig: any;
@@ -42,7 +42,6 @@ export class ApplicationComponent implements OnInit, AfterContentChecked {
     private translate: TranslateService,
     private configService: ConfigService,
     public eventsManagerService: EventsManagerService,
-    public pageloaderService: PageloaderService,
     public authenticationService: AuthenticationService,
     private sanitized: DomSanitizer
   ) {
@@ -62,15 +61,6 @@ export class ApplicationComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      // language changed
-    });
-
-    this.pageloaderService.resetLoader();
-    this.pageloaderService.isLoading.subscribe({
-      next: (x) => { this._spin = x; },
-      error: (e: any) => { console.log('loader error', e); }
-    });
   }
 
   ngOnDestroy() {
@@ -85,6 +75,10 @@ export class ApplicationComponent implements OnInit, AfterContentChecked {
 
   onLoadIFrame(event: any) {
     // console.log('iFrame Load', event);
+  }
+
+  onIframeClick(event: any) {
+    this.sectionIframe.nativeElement.click();
   }
 
   _sanitizeUrl(url: string): SafeUrl {

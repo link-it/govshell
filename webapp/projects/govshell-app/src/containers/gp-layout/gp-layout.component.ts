@@ -99,6 +99,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     this._showHeaderBar = this._config.AppConfig.Layout.showHeaderBar || false;
     this._forceMenuOpen = this._config.AppConfig.Layout.forceMenuOpen || false;
     this._title = this._config.AppConfig.Layout.Header.title;
+    this._menuShellAction.title = this._config.AppConfig.Layout.Header.title;
 
     if (!this._showHeaderBar) {
       document.documentElement.style.setProperty('--header-height', this._showHeaderBar ? '48px' : '0px');
@@ -118,7 +119,6 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     // }
 
     this._initLanguages();
-    // this.loadProfile()
     this._initMenuActions();
     this._onResize();
   }
@@ -147,13 +147,13 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
 
   @HostListener('window:message', ['$event'])
   onMessage(e: any) {
-    if (e.data) {
+    if (e.data && e.data.action) {
       switch (e.data.action) {
         case 'logout':
           this.router.navigate(['/auth/login'], { state: e.data });
           break;
         default:
-          console.log('GovShell - window:message', e.data);
+          // console.log('GovShell - window:message', e.data);
           break;
       }
     }
@@ -169,10 +169,15 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
         this.__toggelCollapse();
       }
     });
+
+    // setTimeout(() => {
+    //   this.loadProfile();
+    // }, 200);
   }
 
   ngAfterContentChecked() {
-    this._spin = this.tools.getSpinner() && this.tools.isSpinnerGlobal();
+    // this._spin = this.tools.getSpinner() && this.tools.isSpinnerGlobal();
+
     if (Tools.CurrentApplication && Tools.CurrentApplication.menu) {
       this._title = Tools.CurrentApplication.menu.title;
       this._isGovShell = (Tools.CurrentApplication.menu.action === 'dashboard');
@@ -190,16 +195,18 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
   }
 
   loadProfile() {
+    this._spin = true;
     this.apiService.getList('profile').subscribe(
       (response: any) => {
-        console.log('profile response', response);
+        // console.log('profile response', response);
         this.authenticationService.setCurrentSession(response);
         this.authenticationService.reloadSession();
-
         this._initMenuActions();
+        this._spin = false;
       },
       (error: any) => {
         console.log('loadProfile error', error.error.status, error);
+        this._spin = false;
       }
     );
   }
@@ -223,26 +230,34 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       (config: any) => {
         const _apps = config.Applications || [];
         _apps.forEach(async (item: any) => {
-          let _isEnabled = true;
-          if (item.id !== 'dashboard') {
-            _isEnabled = await urlExist(item.app_url);
+          if (this.authenticationService.hasAuthorizationsForApplication(item.name)) {            
+            this._menuAppActions.push(
+              new MenuAction({
+                title: item.name,
+                action: item.id,
+                url: item.app_url,
+                type: item.logo.type,
+                image: item.logo.url,
+                icon: item.logo.icon,
+                micon: item.logo.micon,
+                iconUrl: item.logo.icon_url,
+                bgColor: item.logo.bg_color,
+                color: item.logo.color,
+                enabled: false
+              })
+            );
           }
-          this._menuAppActions.push(
-            new MenuAction({
-              title: item.name,
-              action: item.id,
-              url: item.app_url,
-              type: item.logo.type,
-              image: item.logo.url,
-              icon: item.logo.icon,
-              micon: item.logo.micon,
-              iconUrl: item.logo.icon_url,
-              bgColor: item.logo.bg_color,
-              color: item.logo.color,
-              enabled: _isEnabled
-            })
-          );
         });
+
+        this._menuAppActions.map(async (item: any) => {
+          let _isEnabled = false;
+          if (item.action !== 'dashboard') {
+            _isEnabled = await urlExist(item.url);
+            item.enabled = _isEnabled;
+          }
+          return item;
+        });
+
         Tools.Applications = this._menuAppActions;
       }
     );

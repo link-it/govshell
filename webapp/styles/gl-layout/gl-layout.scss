@@ -185,6 +185,7 @@
     overflow-y: auto;
     padding-top: .75rem;
     padding-bottom: 50px;
+    scroll-behavior: smooth;
 
     &:hover {
       &::-webkit-scrollbar-thumb {
@@ -197,6 +198,10 @@
 
       &.container-scroller-no-top-area {
         height: calc(100vh - 48px - var(--header-height));
+
+        &.container-scroller-no-breadcrumb {
+          height: calc(100vh - var(--header-height));
+        }
       }
     }
   }

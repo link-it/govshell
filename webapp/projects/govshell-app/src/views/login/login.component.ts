@@ -98,6 +98,7 @@ export class LoginComponent implements OnInit {
           this.authenticationService.setCurrentSession(response);
           this.authenticationService.reloadSession();
 
+          Tools.MultiSnackbarDestroyAll();
           this.router.navigate([this.returnUrl]);
           this.loading = false;
         },

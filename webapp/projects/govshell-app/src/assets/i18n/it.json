@@ -62,7 +62,7 @@
 			"Password": "Password",
 			"Status": "Stato",
 			"Type": "Tipo",
-			"UsernameEmail": "Nome utente o email"
+			"UsernameEmail": "Nome utente"
 		},
 		"LABEL_HELP": {
 			"All": ""
@@ -92,6 +92,7 @@
 				"login_400": "Username o password errati. Controlla la corretta scrittura dei dati.",
 				"login_401": "Username o password errati. Oppure non sei autorizzato ad accedere.",
 				"login_403": "Username o password errati. Oppure non sei autorizzato ad accedere.",
+				"login_404": "Risorsa non trovata.",
 				"login_422": "Username o password errati. Oppure non sei autorizzato ad accedere.",
 				"valid_email": "Inserisci una mail valida",
 				"wrong_username_password": "Username o password errati. Controlla la corretta scrittura dei dati."
@@ -129,7 +130,8 @@
 			"PAGE_NUMBER": "Pagina {{pageNumber}} di {{totalPages}}"
 		},
 		"PLACEHOLDER": {
-			"Search": "Cerca..."
+			"Search": "Cerca...",
+			"UsernameEmail": "Nome utente"
 		},
 		"SEARCH": {
 			"ClearRecentSearches": "Cancella le ricerche recenti",
