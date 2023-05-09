@@ -250,23 +250,26 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       })
     ];
 
-    this.configService.getConfig('application').subscribe(
-      (config: any) => {
-        const _apps = config.Applications || [];
+    
+    this.apiService.getList('govregistry/api/v1/applications').subscribe(
+    // this.configService.getConfig('application').subscribe(
+      (response: any) => {
+        // const _apps = response.Applications || [];
+        const _apps = response.items || [];
         _apps.forEach(async (item: any) => {
-          if (this.authenticationService.hasAuthorizationsForApplication(item.name)) {            
+          if (this.authenticationService.hasAuthorizationsForApplication(item.application_name)) {
             this._menuAppActions.push(
               new MenuAction({
-                title: item.name,
-                action: item.id,
-                url: item.app_url,
-                type: item.logo.type,
-                image: item.logo.url,
-                icon: item.logo.icon,
-                micon: item.logo.micon,
-                iconUrl: item.logo.icon_url,
-                bgColor: item.logo.bg_color,
-                color: item.logo.color,
+                title: item.application_name,
+                action: item.application_id,
+                url: item.deployed_uri,
+                type: item.logo ? item.logo.type : 'bootstrap',
+                image: item.logo ? item.logo.url : '',
+                icon: item.logo ? item.logo.icon : 'app',
+                micon: item.logo ? item.logo.micon : '',
+                iconUrl: item.logo ? item.logo.icon_url : '',
+                bgColor: item.logo ? item.logo.bg_color : '#3e9990',
+                color: item.logo ? item.logo.color : '#ffffff',
                 enabled: false
               })
             );
