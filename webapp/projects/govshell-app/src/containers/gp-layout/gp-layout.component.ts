@@ -250,12 +250,11 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       })
     ];
 
-    
     this.apiService.getList('govregistry/api/v1/applications').subscribe(
     // this.configService.getConfig('application').subscribe(
       (response: any) => {
-        // const _apps = response.Applications || [];
         const _apps = response.items || [];
+        // const _apps = response.Applications || [];
         _apps.forEach(async (item: any) => {
           if (this.authenticationService.hasAuthorizationsForApplication(item.application_name)) {
             this._menuAppActions.push(

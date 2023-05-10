@@ -19,6 +19,7 @@ export class OpenAPIService {
 
   getList(name: string, options?: IRequestOptions, pageUrl: string = '') : Observable<any> {
     let url = `${this.proxyPath}${name}`;
+    console.log('getList', url);
 
     // gestione delle chiamate url per ngx-infinite-scroll o per la paginazione
     if (pageUrl) {
