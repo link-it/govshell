@@ -20,13 +20,10 @@
       "^/profile": ""
     }
   },
-  "/govregistry/api/*": {
+  "/applications": {
     "target": "http://172.16.1.121/govshell-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": false,
-    "pathRewrite": {
-      "^/govregistry/api/v1": ""
-    }
+    "changeOrigin": true
   }
 }

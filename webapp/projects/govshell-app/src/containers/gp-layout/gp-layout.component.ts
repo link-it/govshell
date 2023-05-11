@@ -250,8 +250,8 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       })
     ];
 
-    this.apiService.getList('govregistry/api/v1/applications').subscribe(
-    // this.configService.getConfig('application').subscribe(
+    this.apiService.getList('applications').subscribe(
+    // this.configService.getConfig('applications').subscribe(
       (response: any) => {
         const _apps = response.items || [];
         // const _apps = response.Applications || [];
@@ -261,7 +261,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
               new MenuAction({
                 title: item.application_name,
                 action: item.application_id,
-                url: item.deployed_uri,
+                url: item.webapp_uri,
                 type: item.logo ? item.logo.type : 'bootstrap',
                 image: item.logo ? item.logo.url : '',
                 icon: item.logo ? item.logo.icon : 'app',
