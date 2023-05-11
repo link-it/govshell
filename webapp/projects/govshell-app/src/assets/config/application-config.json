@@ -3,9 +3,9 @@
 
   "Applications": [
     {
-      "id": "govregistry",
-      "name": "GovRegistry",
-      "app_url": "http://172.16.1.121/govregistry-app",
+      "application_id": "govregistry",
+      "application_name": "GovRegistry",
+      "deployed_uri": "http://172.16.1.121/govregistry-app",
       "logo": {
         "type": "bootstrap",
         "url": "",
@@ -17,9 +17,9 @@
       }
     },
     {
-      "id": "govio",
-      "name": "GovIO",
-      "app_url": "http://172.16.1.121/govio-app",
+      "application_id": "govio",
+      "application_name": "GovIO",
+      "deployed_uri": "http://172.16.1.121/govio-app",
       "logo": {
         "type": "svg",
         "url": "",
@@ -31,16 +31,16 @@
       }
     },
     {
-      "id": "riconciliatore",
-      "name": "Riconciliatore",
-      "app_url": "http://172.16.1.121/govrevs-app",
+      "application_id": "govio-planner",
+      "application_name": "GovIO Planner",
+      "deployed_uri": "http://172.16.1.121/govio-planner-app",
       "logo": {
         "type": "bootstrap",
         "url": "",
-        "icon": "bank",
+        "icon": "calendar4-event",
         "micon": "",
         "icon_url": "",
-        "bg_color": "#4c8bb9",
+        "bg_color": "#3e9990",
         "color": "#ffffff"
       }
     }
