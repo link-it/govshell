@@ -8,6 +8,7 @@ import { EventsManagerService } from 'projects/tools/src/lib/eventsmanager.servi
 import { EventType } from 'projects/tools/src/lib/classes/events';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Tools } from 'projects/tools/src/lib/tools.service';
+import { PageloaderService } from 'projects/tools/src/lib/pageloader.service';
 
 import { INavData } from '../../containers/gp-layout/gp-sidebar-nav';
 import { navItemsMainMenu } from '../../containers/gp-layout/_nav';
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit, AfterContentChecked {
     private configService: ConfigService,
     public eventsManagerService: EventsManagerService,
     public authenticationService: AuthenticationService,
+    public pageloaderService: PageloaderService,
     public sidebarNavHelper: GpSidebarNavHelper
   ) {
     this.appConfig = this.configService.getConfiguration();
@@ -88,6 +90,10 @@ export class DashboardComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
+    this.pageloaderService.isLoading.subscribe({
+      next: (x) => { this._spin = x; },
+      error: (e: any) => { console.log('loader error', e); }
+    });
   }
 
   ngOnDestroy() {
