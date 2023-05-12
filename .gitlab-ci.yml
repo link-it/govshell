@@ -88,7 +88,7 @@ upload:
         - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file reverse-proxy/target/govshell-reverse-proxy.war ${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy-${CI_COMMIT_TAG}.war'
         - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file reverse-proxy/target/govshell-reverse-proxy.jar ${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy-${CI_COMMIT_TAG}.jar'          
         - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file webapp/govshell-app.tgz ${PACKAGE_REGISTRY_URL}/govshell-app-${CI_COMMIT_TAG}.tgz'
-        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file src/main/resources/govshell-sql.tgz ${PACKAGE_REGISTRY_URL}/govshell-sql-${CI_COMMIT_TAG}.tgz'
+        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file reverse-proxy/src/main/resources/govshell-sql.tgz ${PACKAGE_REGISTRY_URL}/govshell-sql-${CI_COMMIT_TAG}.tgz'
 
 release:
     stage: release
