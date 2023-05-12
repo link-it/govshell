@@ -2,6 +2,8 @@ stages:
     - test
     - build
     - deploy
+    - upload
+    - release
 
 variables: 
     MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -10,6 +12,7 @@ variables:
     SONAR_USER: "gitlab-runner"
     SONAR_PASSWORD: "Password@123"
     DEPLOY_STAGING_SSH_HOST: "ec2-user@172.16.1.121"
+    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/govshell/${CI_COMMIT_TAG}"
 default:
     cache:
         paths:
@@ -60,9 +63,6 @@ build_angular:
           - webapp/govshell-app.tgz
     rules:
       - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "staging"'
-
-variables:
-    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/govshell/${CI_COMMIT_TAG}"
 
 upload:
     stage: upload
