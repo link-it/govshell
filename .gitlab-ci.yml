@@ -12,7 +12,7 @@ variables:
     SONAR_USER: "gitlab-runner"
     SONAR_PASSWORD: "Password@123"
     DEPLOY_STAGING_SSH_HOST: "ec2-user@172.16.1.121"
-    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_COMMIT_TAG}"
+    PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/govshell/${CI_COMMIT_TAG}"
 default:
     cache:
         paths:
@@ -70,8 +70,8 @@ upload:
     rules:
         - if: $CI_COMMIT_TAG
     script:
-        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file reverse-proxy/target/govshell-reverse-proxy.war ${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy.war'
-        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file webapp/govshell-app.tgz ${PACKAGE_REGISTRY_URL}/govshell-app.tgz'
+        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file reverse-proxy/target/govshell-reverse-proxy.war ${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy-${CI_COMMIT_TAG}.war'
+        - 'curl -k --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file webapp/govshell-app.tgz ${PACKAGE_REGISTRY_URL}/govshell-app-${CI_COMMIT_TAG}.tgz'
 
 release:
     stage: release
@@ -86,8 +86,8 @@ release:
     script:
         - 'release-cli create --name "govshell-$CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG 
           --assets-link "[ 
-            {\"name\":\"govshell-reverse-proxy-${CI_COMMIT_TAG}.war\", \"url\":\"${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy.war\"},
-            {\"name\":\"govshell-app-${CI_COMMIT_TAG}.tgz\", \"url\":\"${PACKAGE_REGISTRY_URL}/govshell-app.tgz\"}
+            {\"name\":\"govshell-reverse-proxy-${CI_COMMIT_TAG}.war\", \"url\":\"${PACKAGE_REGISTRY_URL}/govshell-reverse-proxy-${CI_COMMIT_TAG}.war\"},
+            {\"name\":\"govshell-app-${CI_COMMIT_TAG}.tgz\", \"url\":\"${PACKAGE_REGISTRY_URL}/govshell-app-${CI_COMMIT_TAG}.tgz\"}
           ]"'
 
 deploy_staging:
