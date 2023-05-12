@@ -43,12 +43,12 @@ build_war:
       - chmod 700 ~/.ssh 
       - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
       - mvn -s /tmp/maven_settings/settings-repo_linkit.xml -U deploy -Pwar -DskipTests=true 
-      - cd src/main/resources/
-      - tar czf govshell-sql.tgz src/main/resources/*.sql
+      - cd reverse-proxy/src/main/resources/
+      - tar czf govshell-sql.tgz *.sql
     artifacts:
         paths:
           - reverse-proxy/target/govshell-reverse-proxy.war
-          - src/main/resources/govshell-sql.tgz
+          - reverse-proxy/src/main/resources/govshell-sql.tgz
     rules:
       - if: '$CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "staging"'
 
