@@ -5,8 +5,8 @@
     {
       "application_id": "govregistry",
       "application_name": "GovRegistry",
-      "deployed_uri": "http://172.16.1.121/govregistry",
-      "webapp_uri": "http://172.16.1.121/govregistry-app",
+      "deployed_uri": "http://localhost:5201/",
+      "webapp_uri": "http://localhost:5201",
       "logo": {
         "type": "bootstrap",
         "url": "",
@@ -20,8 +20,8 @@
     {
       "application_id": "govio",
       "application_name": "GovIO",
-      "deployed_uri": "http://172.16.1.121/govio",
-      "webapp_uri": "http://172.16.1.121/govio-app",
+      "deployed_uri": "http://localhost:5202/",
+      "webapp_uri": "http://localhost:5202/",
       "logo": {
         "type": "svg",
         "url": "",
@@ -35,8 +35,8 @@
     {
       "application_id": "govio-planner",
       "application_name": "GovIO Planner",
-      "deployed_uri": "http://172.16.1.121/govio-planner",
-      "webapp_uri": "http://172.16.1.121/govio-planner-app",
+      "deployed_uri": "http://localhost:5203/",
+      "webapp_uri": "http://localhost:5203",
       "logo": {
         "type": "bootstrap",
         "url": "",
