@@ -201,8 +201,6 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
   }
 
   ngAfterContentChecked() {
-    // this._spin = this.tools.getSpinner() && this.tools.isSpinnerGlobal();
-
     if (Tools.CurrentApplication && Tools.CurrentApplication.menu) {
       this._title = Tools.CurrentApplication.menu.title;
       this._isGovShell = (Tools.CurrentApplication.menu.action === 'dashboard');
@@ -250,43 +248,50 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       })
     ];
 
-    this.apiService.getList('govregistry/api/v1/applications').subscribe(
-    // this.configService.getConfig('application').subscribe(
-      (response: any) => {
-        const _apps = response.items || [];
-        // const _apps = response.Applications || [];
-        _apps.forEach(async (item: any) => {
-          if (this.authenticationService.hasAuthorizationsForApplication(item.application_name)) {
-            this._menuAppActions.push(
-              new MenuAction({
-                title: item.application_name,
-                action: item.application_id,
-                url: item.deployed_uri,
-                type: item.logo ? item.logo.type : 'bootstrap',
-                image: item.logo ? item.logo.url : '',
-                icon: item.logo ? item.logo.icon : 'app',
-                micon: item.logo ? item.logo.micon : '',
-                iconUrl: item.logo ? item.logo.icon_url : '',
-                bgColor: item.logo ? item.logo.bg_color : '#3e9990',
-                color: item.logo ? item.logo.color : '#ffffff',
-                enabled: false
-              })
-            );
-          }
-        });
-
-        this._menuAppActions.map(async (item: any) => {
-          let _isEnabled = false;
-          if (item.action !== 'dashboard') {
-            _isEnabled = await urlExist(item.url);
-            item.enabled = _isEnabled;
-          }
-          return item;
-        });
-
-        Tools.Applications = this._menuAppActions;
-      }
-    );
+    setTimeout(() => {
+      this._spin = true;
+      this.apiService.getList('applications').subscribe(
+      // this.configService.getConfig('applications').subscribe(
+        (response: any) => {
+          const _apps = response.items || [];
+          // const _apps = response.Applications || [];
+          _apps.forEach(async (item: any) => {
+            if (this.authenticationService.hasAuthorizationsForApplication(item.application_id)) {
+              this._menuAppActions.push(
+                new MenuAction({
+                  title: item.application_name,
+                  action: item.application_id,
+                  url: item.webapp_uri,
+                  type: item.logo ? item.logo.type : 'bootstrap',
+                  image: item.logo ? item.logo.url : '',
+                  icon: item.logo ? item.logo.icon : 'app',
+                  micon: item.logo ? item.logo.micon : '',
+                  iconUrl: item.logo ? item.logo.icon_url : '',
+                  bgColor: item.logo ? item.logo.bg_color : '#3e9990',
+                  color: item.logo ? item.logo.color : '#ffffff',
+                  enabled: false
+                })
+              );
+            }
+          });
+  
+          this._menuAppActions.map(async (item: any) => {
+            let _isEnabled = false;
+            if (item.action !== 'dashboard') {
+              _isEnabled = await urlExist(item.url);
+              item.enabled = _isEnabled;
+            }
+            return item;
+          });
+  
+          Tools.Applications = this._menuAppActions;
+          this._spin = false;
+        },
+        (error: any) => {
+          this._spin = false;
+        }
+      );
+    }, 500);
   }
 
   _initLanguages() {
