@@ -136,10 +136,12 @@ public class ProxyService {
 				.method(request.getMethod(),
 						HttpRequest.BodyPublishers.ofInputStream(() -> inStream));
 
+		logger.debug("Request Headers: ");
+		
 		Enumeration<String> headerNames = request.getHeaderNames();
 		while (headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();
-			
+			logger.debug("{}: {}", headerName, request.getHeader(headerName));
 			if (!reservedHeaders.contains(headerName)) {
 				try {
 					builder.header(headerName, request.getHeader(headerName));
