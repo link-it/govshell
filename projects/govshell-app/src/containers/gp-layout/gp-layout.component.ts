@@ -225,6 +225,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       (response: any) => {
         this.authenticationService.setCurrentSession(response);
         this.authenticationService.reloadSession();
+        this._session = this.authenticationService.getCurrentSession();
         this._initMenuActions();
         this._spin = false;
       },
