@@ -144,7 +144,7 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     // }
 
     this._initLanguages();
-    this._initMenuActions();
+    // this._initMenuActions();
     this._onResize();
 
     this._loadFooter();
