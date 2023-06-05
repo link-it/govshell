@@ -22,11 +22,7 @@
     },
 
     "GOVAPI": {
-<<<<<<< HEAD:webapp/projects/govshell-app/src/assets/config/app-config.json
       "HOST": "http://172.16.1.121/govhub-reverse-proxy/v1",
-=======
-      "HOST": "http://172.16.1.121/govhub-reverse-proxy",
->>>>>>> staging:projects/govshell-app/src/assets/config/app-config.json
       "LOGOUT_URL": "/logout"
     },
 
