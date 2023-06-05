@@ -24,6 +24,8 @@ import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 import urlExist from "url-exist"
 
+import { environment } from '@env';
+
 @Component({
   selector: 'gp-layout',
   templateUrl: './gp-layout.component.html',
@@ -195,9 +197,9 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       }
     });
 
-    // setTimeout(() => {
-    //   this.loadProfile();
-    // }, 200);
+    setTimeout(() => {
+      this.loadProfile();
+    }, 200);
   }
 
   ngAfterContentChecked() {
@@ -250,13 +252,13 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
 
     setTimeout(() => {
       this._spin = true;
-      this.apiService.getList('applications').subscribe(
-      // this.configService.getConfig('applications').subscribe(
+      const _production = environment.production;
+      const _obs: Observable<any> = _production ? this.apiService.getList('applications') : this.configService.getConfig('applications');
+      _obs.subscribe(
         (response: any) => {
-          const _apps = response.items || [];
-          // const _apps = response.Applications || [];
+          const _apps = (_production ? response.items : response.Applications) || [];
           _apps.forEach(async (item: any) => {
-            if (this.authenticationService.hasAuthorizationsForApplication(item.application_id)) {
+            if (this.authenticationService.hasAuthorizationsForApplication(item.application_id) || !_production) {
               this._menuAppActions.push(
                 new MenuAction({
                   title: item.application_name,
