@@ -8,11 +8,22 @@
     "DELAY": "500",
 
     "AUTH_SETTINGS": { 
-      "DEVELOP": true
+      "DEVELOP": false,
+      "AUTH_USER": true,
+      "OTHER_AUTHS": [
+        {
+          "label": "Accedi con Github",
+          "icon": "github",
+          "image": "",
+          "enabled": true,
+          "signin_url": "http://172.16.1.121/govhub-reverse-proxy/oauth2/authorization/github"
+        }
+      ]
     },
 
     "GOVAPI": {
-      "HOST": "http://172.16.1.121/govshell-reverse-proxy",
+      "HOST": "http://172.16.1.121/govhub-reverse-proxy",
+      "VERSION": "/v1",
       "LOGOUT_URL": "/logout"
     },
 
