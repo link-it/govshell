@@ -197,9 +197,9 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       }
     });
 
-    // setTimeout(() => {
-    //   this.loadProfile();
-    // }, 200);
+    setTimeout(() => {
+      this.loadProfile();
+    }, 200);
   }
 
   ngAfterContentChecked() {
@@ -252,12 +252,13 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
 
     setTimeout(() => {
       this._spin = true;
-      const _obs: Observable<any> = environment.production ? this.apiService.getList('applications') : this.configService.getConfig('applications');
+      const _production = environment.production;
+      const _obs: Observable<any> = _production ? this.apiService.getList('applications') : this.configService.getConfig('applications');
       _obs.subscribe(
         (response: any) => {
-          const _apps = (environment.production ? response.items : response.Applications) || [];
+          const _apps = (_production ? response.items : response.Applications) || [];
           _apps.forEach(async (item: any) => {
-            if (this.authenticationService.hasAuthorizationsForApplication(item.application_id) || !environment.production) {
+            if (this.authenticationService.hasAuthorizationsForApplication(item.application_id) || !_production) {
               this._menuAppActions.push(
                 new MenuAction({
                   title: item.application_name,
