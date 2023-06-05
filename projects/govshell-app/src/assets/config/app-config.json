@@ -22,7 +22,8 @@
     },
 
     "GOVAPI": {
-      "HOST": "http://172.16.1.121/govhub-reverse-proxy/v1",
+      "HOST": "http://172.16.1.121/govhub-reverse-proxy",
+      "VERSION": "/v1",
       "LOGOUT_URL": "/logout"
     },
 
