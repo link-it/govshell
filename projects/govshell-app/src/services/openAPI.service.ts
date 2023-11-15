@@ -35,9 +35,8 @@ export class OpenAPIService {
         break;
 
       default:
-        return this.http.get<any>(url, options);
+        return this.http.get<any>(url, options, !!pageUrl);
     }
-    
   }
 
   getDetails(name: string, id: any, type?: string, options?: IRequestOptions) {
