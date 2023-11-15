@@ -1,29 +1,26 @@
 {
-  "/logout": {
-    "target": "http://172.16.1.121/govhub-reverse-proxy",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  },
   "/do-login": {
     "target": "http://172.16.1.121/govhub-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
-  "/profile": {
+  "/v1/logout": {
     "target": "http://172.16.1.121/govhub-reverse-proxy",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
     "pathRewrite": {
-      "^/profile": ""
+      "^/v1": ""
     }
   },
-  "/applications": {
-    "target": "http://172.16.1.121/govhub-reverse-proxy",
+  "/v1/*": {
+    "target": "http://172.16.1.121/govhub-reverse-proxy/v1",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/v1": ""
+    }
   }
 }
