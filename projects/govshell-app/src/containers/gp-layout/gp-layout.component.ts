@@ -243,12 +243,28 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
       new MenuAction({
         title: _user,
         subTitle: '',
-        action: 'profile'
+        action: 'profile',
+        enabled: false
+      }),
+      new MenuAction({
+        title: '',
+        subTitle: '',
+        action: 'divider'
       }),
       new MenuAction({
         title: this.translate.instant('APP.MENU.Logout'),
         action: 'logout'
-      })
+      }),
+      // new MenuAction({
+      //   title: '',
+      //   subTitle: '',
+      //   action: 'divider'
+      // }),
+      // new MenuAction({
+      //   title: this.translate.instant('APP.MENU.Informations'),
+      //   subTitle: '',
+      //   action: 'informations'
+      // })
     ];
 
     setTimeout(() => {
@@ -403,6 +419,9 @@ export class GpLayoutComponent implements OnInit, AfterContentChecked, OnDestroy
     Tools.CurrentApplication = this._menuShellAction;
     this._title = this._config.AppConfig.Layout.Header.title;
     switch (event.menu.action) {
+      // case 'informations':
+      //   console.log('MENU informations');
+      //   break
       case 'profile':
         this.router.navigate(['/profile']);
         break

@@ -68,20 +68,22 @@
           <ul role="menu" tabindex="-1" class="dropdown-menu dropdown-menu-end" aria-labelledby="menu-action">
             <ng-container *ngFor="let menu of _menuActions">
               <ng-container [ngSwitch]="menu.action">
+                <ng-container *ngSwitchCase="'divider'">
+                  <li class="divider"></li>
+                </ng-container>
                 <ng-container *ngSwitchCase="'profile'">
                   <li role="presentation" class="gp-new-dropdown-item">
-                    <button role="menuitem" type="button" class="dropdown-item" (click)="_onMenuAction(menu)">
+                    <button role="menuitem" type="button" class="dropdown-item" [ngClass]="{'disabled': !menu.enabled}" (click)="_onMenuAction(menu)">
                       <div class="gp-new-dropdown-item-text-wrapper">
                         <div class="gl-font-weight-bold">{{ menu.title }}</div>
                         <p class="gp-new-dropdown-item-text-primary m-0">{{ menu.subTitle }}</p>
                       </div>
                     </button>
                   </li>
-                  <li class="divider"></li>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
                   <li role="presentation" class="gp-new-dropdown-item">
-                    <button role="menuitem" type="button" class="dropdown-item" (click)="_onMenuAction(menu)">
+                    <button role="menuitem" type="button" class="dropdown-item" [ngClass]="{'disabled': !menu.enabled}" (click)="_onMenuAction(menu)">
                       <div class="gp-new-dropdown-item-text-wrapper">
                         <p class="gp-new-dropdown-item-text-primary m-0">{{ menu.title }}</p>
                       </div>
